@@ -1,14 +1,33 @@
 \section{Discussion}
 
 \subsection{Evaluation Metrics}
+In a supervised evaluation framework, given a groundtruth mask $G$ on a particular frame and an output segmentation $M$,
+any evaluation measure ultimately has to answerthe question how well $M$ fits $G$. As justified in \cite{pont2016supervised}, 
+for images one can use two complementary points of view, regionbased and contour-based measures. As videos extends the
+dimensionality of still images to time, the temporal stability of the results must also be considered.
 
 \subsubsection{Accuracy}
-
 \paragraph{Region Similarity $\J$}
+To measure the region-based segmentation similarity, i.e. the number of mislabeled pixels,
+we employ the Jaccard index $\J$ defined as the intersectionover-union of the estimated segmentation and the groundtruth mask.
+The Jaccard index has been widely adopted since its first appearance in PASCAL VOC2008\cite{martin2004learning}, 
+as it provides intuitive, scale-invariant information on the number of mislabeled pixels. Given an output segmentation $M$ and 
+the corresponding ground-truth mask $G$ it is defined as $\J = \frac{|M∩G|}{|M∪G|}$
 
 \paragraph{Contour Accuracy $\F$}
+From a contour-based perspective, one can interpret $M$ as a set of closed contours $c(M)$
+delimiting the spatial extent of the mask. Therefore, one
+can compute the contour-based precision and recall $Pc$ and
+$Rc$ between the contour points of $c(M)$ and $c(G)$, via a
+bipartite graph matching in order to be robust to small inaccuracies, as proposed in \cite{martin2004learning}.
+
+We consider the so called F-measure $F$ as a good trade-off between the two, defined
+as $F = \frac{2PcRc}{Pc+Rc}$.
 
 \paragraph{Temporal Stability $\T$}
+Temporal stability $\T$ . Intuitively, $\J$ measures how well the pixels of the two masks match, while $F$ measures the
+accuracy of the contours. However, temporal stability of the results is a relevant aspect in video object segmentationsince the evolution of object shapes is an important cue for
+recognition and jittery, unstable boundaries are unacceptable in video editing applications. 
 
 \subsubsection{Execution Time}
 
