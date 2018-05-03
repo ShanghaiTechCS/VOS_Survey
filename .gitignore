@@ -2,3 +2,6 @@
 *.bbl
 *.blg
 *.log
+*.pdf
+
+*.gz
