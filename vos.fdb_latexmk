@@ -1,14 +1,15 @@
 # Fdb version 3
-["bibtex vos"] 1525337967 "vos.aux" "vos.bbl" "vos" 1525337967
+["bibtex vos"] 1525339637 "vos.aux" "vos.bbl" "vos" 1525339638
   "./ieee.bst" 1525326278 19623 f9cd22458ca68af2567100f1aed905e8 ""
-  "reference.bib" 1525328913 38905 6233d2e8d442bc838605608c3c3a5b44 ""
-  "vos.aux" 1525337967 5795 e5156752d3aed2b0f7cefee781d5409e ""
+  "reference.bib" 1525339548 39132 9179a2ee801121bf0c4fa9dcf326a760 ""
+  "vos.aux" 1525339637 6019 4e71445a4ec371d40f94f78baf166a7e ""
   "vos.bcf" 0 -1 0 ""
   (generated)
+  "vos.blg"
   "vos.bbl"
-["pdflatex"] 1525337967 "/home/youngfly/Disk/Seafile/VOS_Survey/vos.tex" "vos.pdf" "vos" 1525337967
+["pdflatex"] 1525339637 "/home/youngfly/Disk/Seafile/VOS_Survey/vos.tex" "vos.pdf" "vos" 1525339638
   "/etc/texmf/web2c/texmf.cnf" 1508948289 1101 af7716885e081ab43982cab7b4672c1a ""
-  "/home/youngfly/Disk/Seafile/VOS_Survey/vos.tex" 1525328348 3017 0561789da778eea360259b54f9250bcc ""
+  "/home/youngfly/Disk/Seafile/VOS_Survey/vos.tex" 1525338753 3017 0561789da778eea360259b54f9250bcc ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -119,15 +120,15 @@
   "conclusion.tex" 1525326278 20 b50204e17c0a475d3d65191e029fdf1d ""
   "cvpr.sty" 1525326278 8185 1f09b4535924bf997f66357aa9ee3654 ""
   "cvpr_eso.sty" 1525326278 3878 6aa7c08ff2621006e0603349e40a30a8 ""
-  "datasets.tex" 1525327640 2027 d1ea3bf7abc5d17306f18d3868bae075 ""
+  "datasets.tex" 1525339636 1919 53a2074bab6f2a4cacc7d4b638b3a41f ""
   "discussion.tex" 1525337966 3571 07540eb5d1fe02f1486476a4c6cab184 ""
   "eso-pic.sty" 1525326278 9460 d2935ae95b5cd343fcf5887ff530288d ""
   "introduction.tex" 1525326278 4050 bfe102dbddf987d77fd9a59640272fd4 ""
   "methods.tex" 1525326278 1173 af5cd4b1f7bc7e36509ea4f6f4158f5a ""
-  "vos.aux" 1525337967 8 a94a2480d3289e625eea47cd1b285758 ""
-  "vos.bbl" 0 -1 0 "bibtex vos"
-  "vos.tex" 1525328348 3017 0561789da778eea360259b54f9250bcc ""
+  "vos.aux" 1525339637 6019 4e71445a4ec371d40f94f78baf166a7e ""
+  "vos.bbl" 1525339637 3052 dbe8d0c6eb2e20c1a1f2dcf22cdfe1ab "bibtex vos"
+  "vos.tex" 1525338753 3017 0561789da778eea360259b54f9250bcc ""
   (generated)
-  "vos.aux"
   "vos.pdf"
+  "vos.aux"
   "vos.log"
