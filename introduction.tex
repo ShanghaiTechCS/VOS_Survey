@@ -1,0 +1,22 @@
+\section{Introduction}
+Nowadays, semantic segmentation – applied to still 2D images, video, and even 3D or volumetric data
+
+– is one of the key problems in the ﬁeld of computer vision. Looking at the big picture, semantic segmentation is one of the high-level task that paves the way towards complete scene understanding. The importance of scene understanding as a core computer vision problem is highlighted by the fact that an increasing number of applications nourish from inferring knowledge from imagery. Some of those applications include autonomous driving [1] [2] [3], human-machine interaction [4], computational photography
+
+[5], image search engines [6], and augmented reality to name a few. Such problem has been addressed in the past using various traditional computer vision and machine learning techniques. Despite the popularity of those kind of methods, the deep learning revolution has turned the tables so that many computer vision problems – semantic segmentation among them – are being tackled using deep architectures, usually Convolutional Neural Networks (CNNs) [7] [8] [9]
+
+[10] [11], which are surpassing other approaches by a large margin in terms of accuracy and sometimes even efﬁciency. However, deep learning is far from the maturity achieved by other old-established branches of computer vision and machine learning. Because of that, there is a lack of unifying works and state of the art reviews. The ever-changing state of the ﬁeld makes initiation difﬁcult and keeping up with its evolution pace is an incredibly time-consuming task due to the sheer amount of new literature being produced. This makes it hard to keep track of the works dealing with semantic segmentation and properly interpret their proposals, prune subpar approaches, and validate results.
+
+To the best of our knowledge, this is the ﬁrst review to focus explicitly on deep learning for semantic segmentation. Various semantic segmentation surveys already exist such as the works by Zhu et al. [12] and Thoma [13], which do a great work summarizing and classifying existing methods, discussing datasets and metrics, and providing design choices for future research directions. However, they lack some of the most recent datasets, they do not analyze frameworks, and none of them provide details about deep learning techniques. Because of that, we consider our work to be novel and helpful thus making it a signiﬁcant contribution for the research community.
+
+The key contributions of our work are as follows:
+
+(1) We provide a broad survey of existing datasets that might be useful for segmentation projects with deep learning techniques.
+
+(2) An in-depth and organized review of the most signiﬁcant methods that use deep learning for semantic segmentation, their origins, and their contributions.
+
+(3) A thorough performance evaluation which gathers quantitative metrics such as accuracy, execution time, and memory footprint.
+
+(4) A discussion about the aforementioned results, as well as a list of possible future works that might set the course of upcoming advances, and a conclusion summarizing the state of the art of the ﬁeld.
+
+The remainder of this paper is organized as follows. Firstly, Section 2 introduces the semantic segmentation problem as well as notation and conventions commonly used in the literature. Other background concepts such as common deep neural networks are also reviewed. Next, Section 3 describes existing datasets, challenges, and benchmarks. Section 4 reviews existing methods following a bottom-up complexity order based on their contributions. This section focuses on describing the theory and highlights of those methods rather than performing a quantitative evaluation. Finally, Section 5 presents a brief discussion on the presented methods based on their quantitative results on the aforementioned datasets. In addition, future research directions are also laid out. At last, Section 6 summarizes the paper and draws conclusions about this work and the state of the art of the ﬁeld.

@@ -1,0 +1,45 @@
+\section{Discussion}
+
+\subsection{Evaluation Metrics}
+
+\subsubsection{Accuracy}
+
+\paragraph{Region Similarity $\J$}
+
+\paragraph{Contour Accuracy $\F$}
+
+\paragraph{Temporal Stability $\T$}
+
+\subsubsection{Execution Time}
+
+\subsection{Results}
+
+% run the experiment on all datasets
+
+\subsubsection{Single Object Semi-supervised VOS}
+
+\subsubsection{Multiple Objects Semi-supervised VOS}
+
+\subsubsection{Unsupervised VOS}
+
+\begin{table*}[t!h]
+	\begin{center}
+%		\setlength\tabcolsep{5pt}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+			&NLC~\cite{Faktor2014Video} &CUT~\cite{Keuper2015Motion} &FST~\cite{Papazoglou2013Fast} &SFL~\cite{Cheng2017SegFlow:} &LMP~\cite{Tokmakov2017Learninga} &FSEG~\cite{Jain2017FusionSeg:} &LVO~\cite{Tokmakov2017Learning} & ARP~\cite{Koh2017Primary} 
+			&IET~\cite{Li2018Instance} \\
+			\hline
+			$\J$ Mean &55.1 &55.2	&55.8 &67.4 & 70.0 & 70.7 &75.9 &76.2 &78.5 \\
+			\hline
+			$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{The result of unsupervised methods on the DAVIS 2016 validation set.}
+	\label{table:davis_unsuperivsed}
+\end{table*}
+
+\subsection{Summary}
+
+\subsection{Future Research Directions}
