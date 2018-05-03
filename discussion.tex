@@ -9,23 +9,21 @@ dimensionality of still images to time, the temporal stability of the results mu
 \subsubsection{Accuracy}
 \paragraph{Region Similarity $\J$}
 To measure the region-based segmentation similarity, i.e. the number of mislabeled pixels,
-we employ the Jaccard index $\J$ defined as the intersectionover-union of the estimated segmentation and the groundtruth mask.
-The Jaccard index has been widely adopted since its first appearance in PASCAL VOC2008\cite{martin2004learning}, 
+one employ the Jaccard index $\J$ defined as the intersectionover-union of the estimated segmentation and the groundtruth mask.
+The Jaccard index has been widely adopted since its first appearance in PASCAL VOC2008 \cite{martin2004learning}, 
 as it provides intuitive, scale-invariant information on the number of mislabeled pixels. Given an output segmentation $M$ and 
-the corresponding ground-truth mask $G$ it is defined as $\J = \frac{|M∩G|}{|M∪G|}$
+the corresponding ground-truth mask $G$ it is defined as $\J = \frac{|M \cap G|}{|M\cup G|}$
 
 \paragraph{Contour Accuracy $\F$}
 From a contour-based perspective, one can interpret $M$ as a set of closed contours $c(M)$
 delimiting the spatial extent of the mask. Therefore, one
 can compute the contour-based precision and recall $Pc$ and
-$Rc$ between the contour points of $c(M)$ and $c(G)$, via a
-bipartite graph matching in order to be robust to small inaccuracies, as proposed in \cite{martin2004learning}.
-
-We consider the so called F-measure $F$ as a good trade-off between the two, defined
-as $F = \frac{2PcRc}{Pc+Rc}$.
+$Rc$ between the contour points of $c(M)$ and $c(G)$, via a bipartite graph matching in order to be robust to small inaccuracies,
+as proposed in \cite{martin2004learning}.
+So the F-measure $F$ is a good trade-off between two, which is  defined as $F = \frac{2Pc Rc}{Pc+Rc}$.
 
 \paragraph{Temporal Stability $\T$}
-Temporal stability $\T$ . Intuitively, $\J$ measures how well the pixels of the two masks match, while $F$ measures the
+Temporal stability $\T$. Intuitively, $\J$ measures how well the pixels of the two masks match, while $F$ measures the
 accuracy of the contours. However, temporal stability of the results is a relevant aspect in video object segmentationsince the evolution of object shapes is an important cue for
 recognition and jittery, unstable boundaries are unacceptable in video editing applications. 
 
@@ -44,21 +42,29 @@ recognition and jittery, unstable boundaries are unacceptable in video editing a
 \begin{table*}[t!h]
 	\begin{center}
 %		\setlength\tabcolsep{5pt}
-		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 			\hline
-			&NLC~\cite{Faktor2014Video} &CUT~\cite{Keuper2015Motion} &FST~\cite{Papazoglou2013Fast} &SFL~\cite{Cheng2017SegFlow:} &LMP~\cite{Tokmakov2017Learninga} &FSEG~\cite{Jain2017FusionSeg:} &LVO~\cite{Tokmakov2017Learning} & ARP~\cite{Koh2017Primary} 
+			Dataset& Metrics&NLC~\cite{Faktor2014Video} &CUT~\cite{Keuper2015Motion} &FST~\cite{Papazoglou2013Fast} &SFL~\cite{Cheng2017SegFlow:} &LMP~\cite{Tokmakov2017Learninga} &FSEG~\cite{Jain2017FusionSeg:} &LVO~\cite{Tokmakov2017Learning} & ARP~\cite{Koh2017Primary} 
 			&IET~\cite{Li2018Instance} \\
 			\hline
-			$\J$ Mean &55.1 &55.2	&55.8 &67.4 & 70.0 & 70.7 &75.9 &76.2 &78.5 \\
+			\multirow{2}{*}{DAVIS} &$\J$ Mean &55.1 &55.2 &55.8 &67.4 &70.0 &70.7 &75.9 &76.2 &78.5 \\
+			\cline{2-11}
+			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
 			\hline
-			$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
+			\multirow{2}{*}{SegTrack-V2} &$\J$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
+			\cline{2-11}
+			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
+			\hline
+
+			\multirow{2}{*}{Youtube-Objects} &$\J$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
+			\cline{2-11}
+			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
 			\hline
 		\end{tabular}
 	\end{center}
-	\caption{The result of unsupervised methods on the DAVIS 2016 validation set.}
-	\label{table:davis_unsuperivsed}
+	\caption{The result of unsupervised methods on the Video Objects Segmentation datasets .}
+	\label{table:unsuperivsed_all_dataset}
 \end{table*}
-
 \subsection{Summary}
 
 \subsection{Future Research Directions}
