@@ -4,7 +4,14 @@
 \subsection{Common Deep Network BackBone}
 Deep convolutional neural networks (CNNs) \cite{Lecun2014Backpropagation} have been widely used in light of their successes in many computer vision tasks, such as, face recognition\cite{Schroff2015FaceNet},  object detection\cite{Ren2015Faster}, and image classification\cite{Krizhevsky2012ImageNet}. CNNs use the multi-layer nonlinear function to approximate the mapping function from input to output.
 
-The famous LeNet contains 5 layers. Later as the enhancement in the computing capability of GPUs, deeper CNNs with more convolutional layers, including AlexNet (8 layers) \cite{Krizhevsky2012ImageNet} and VGGNet (16 layers) (16 layers)\cite{Simonyan-VGG} are proposed. Experimental results show that the increase in depth improves the capability of CNNs for image classification.
+The famous LeNet contains 5 layers. Later as the enhancement in the computing capability of GPUs, deeper CNNs with more convolutional layers, including AlexNet (8 layers) \cite{Krizhevsky2012ImageNet} and VGGNet (16 layers) (16 layers)\cite{Simonyan-VGG} are proposed. Experimental results show that the increase in depth improves the capability of CNNs for image classification. Fig.\ref{VGG} shows the architecture of VGG.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/VGG.png}
+    \caption{VGG Network}
+    \label{VGG}
+\end{figure}
 
 In GoogLeNet\cite{Szegedy-GoogLeNet}, Szegedy \etal propose the `\emph{Inception module}', which is aimed to find out an optimal local sparse structure in a convolutional network. The Inception architecture vision contains three paths with filters sizes $1 \times 1$, $3 \times 3$ and $5\times 5$, an alternative parallel pooling path, and a combination of all those layers with their output filter banks concatenated into a single output vector forming the input of the next stage.
 Such an Inception network is a network consisting of modules of such type stacked upon each other, with occasional max-pooling layers with stride 2 to decrease the resolution of the grid.
@@ -14,18 +21,44 @@ In \cite{xie2017aggregated}, Xie \etal propose a highly modularized network arch
 In \cite{huang2016densely}, Huang \etal design the Dense Convolutional Network (DenseNet), which connects each layer
 to every other layer in a feed-forward way. For each layer, the feature-maps of all preceding layers are used as inputs, and its own feature-maps are used as inputs into all subsequent layers.
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/FCN.png}
+    \caption{FCN framework}
+    \label{FCN}
+\end{figure}
+
 \subsection{Common Deep Network Architecture}
-%\subsubsection{FCN}
+\subsubsection{FCN}
 Semantic pixel-wise segmentation is an active topic of research. Recently, CNNs also have been introduced to solve segmentation problem. 
 
 In \cite{Long2015Fully}, Long \etal define and detail the space of fully convolutional networks, which take input of arbitrary size and produce correspondingly-sized output with efficient inference and learning. A skip architecture is also designed that combines semantic information from a deep, coarse layer with appearance information from a shallow, fine layer to produce accurate and detailed segmentations. 
-%\subsubsection{SegNet}
 
 
+\subsubsection{SegNet}
 In \cite{SegNet}, Badrinarayanan \etal present a deep fully convolutional neural network architecture for semantic pixel-wise segmentation termed SegNet, which consists of an encoder network, a corresponding decoder network followed by a pixel-wise classification layer. The role of the decoder network is to map the low resolution encoder feature maps to full input resolution feature maps for pixel-wise classification. Specifically, the decoder uses pooling indices computed in the max-pooling step of the corresponding encoder to perform non-linear upsampling.
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/SegNet.png}
+    \caption{SegNet framework}
+    \label{SegNet}
+\end{figure}
+
+\subsubsection{U-Net}
 Ronneberger \etal propose U-Net for biomedical image segmentation in \cite{Ronneberger2015U}. The architecture of U-Net consists of a contracting path to capture context and a symmetric expanding path that enables precise localization. 
 In the upsampling part, U-Net has also a large number of feature channels, which allow the network to propagate context information to higher resolution layers. As a consequence, the expansive path is more or less symmetric to the contracting path, and yields a u-shaped architecture.
+
+\begin{figure*}
+    \begin{center}
+        \includegraphics[width=\textwidth]{figure/unet.png}
+    \end{center}
+    \caption{U-Net framework}
+    \label{unet}
+\end{figure*}
+
+
+
 
 \subsection{Common Method for Video}
 
@@ -35,6 +68,7 @@ Video object segmentation is challenging due to fast moving objects, deforming s
 First, we propose a multi-level spatial-temporal graphical model for video object segmentation and demonstrate that it performs better than single-level models. Second, we show that the segmentation results can be used to reﬁne the optical ﬂow, and vice versa, in the proposed object ﬂow algorithm. Third, we demonstrate that our joint model of segmentation and optical ﬂow can be efﬁciently computed by iterative optimization.
 
 \subsubsection{Spatial Attention}
+
 
 \subsection{Common Method for One-Shot}
 
