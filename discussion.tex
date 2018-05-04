@@ -41,24 +41,26 @@ recognition and jittery, unstable boundaries are unacceptable in video editing a
 
 \begin{table*}[t!h]
 	\begin{center}
-%		\setlength\tabcolsep{5pt}
+		\setlength\tabcolsep{3pt}
 		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 			\hline
-			Dataset& Metrics&NLC~\cite{Faktor2014Video} &CUT~\cite{Keuper2015Motion} &FST~\cite{Papazoglou2013Fast} &SFL~\cite{Cheng2017SegFlow:} &LMP~\cite{Tokmakov2017Learninga} &FSEG~\cite{Jain2017FusionSeg:} &LVO~\cite{Tokmakov2017Learning} & ARP~\cite{Koh2017Primary} 
-			&IET~\cite{Li2018Instance} \\
+			Dataset& Metrics&NLC~\cite{Faktor2014Video} &CUT~\cite{Keuper2015Motion} &FST~\cite{Papazoglou2013Fast}
+			&SFL~\cite{Cheng2017SegFlow:} &LMP~\cite{Tokmakov2017Learning} &FSEG~\cite{Jain2017FusionSeg} 
+			&LVO~\cite{Tokmakov2017Learning} & ARP~\cite{Koh2017Primary} 
+			&IET~\cite{Li2018Instance}\\
 			\hline
-			\multirow{2}{*}{DAVIS} &$\J$ Mean &55.1 &55.2 &55.8 &67.4 &70.0 &70.7 &75.9 &76.2 &78.5 \\
+			\multirow{2}{*}{DAVIS} &$\J$ Mean &55.1 &55.2 &55.8 &67.4 &69.7 &71.5 &75.9 &76.2 &78.5 \\
 			\cline{2-11}
-			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
+			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 & 66.3 & infea &72.1 &70.6 &75.5 \\
 			\hline
-			\multirow{2}{*}{SegTrack-V2} &$\J$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
+			\multirow{2}{*}{SegTrack} &$\J$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &61.4 & infea &70.6 &75.5 \\
 			\cline{2-11}
-			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
+			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &infea &infea &70.6 &75.5 \\
 			\hline
 
-			\multirow{2}{*}{Youtube-Objects} &$\J$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
+			\multirow{2}{*}{Youtube} &$\J$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &68.57 &infea &70.6 &75.5 \\
 			\cline{2-11}
-			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &65.3 &72.1 &70.6 &75.5 \\
+			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &infea &infea &70.6 &75.5  \\
 			\hline
 		\end{tabular}
 	\end{center}
