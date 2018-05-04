@@ -83,7 +83,78 @@ motion branch. Finally they apply a layer that thkes the elements-wise maximum t
 an object segmentation prediction is reliable if 1) either apperance or motion model along predicts the object 
 segmentation with very strong confidence or 2) their combination together predicts the segmentation with high confidence. 
 
-Besides the two stream strategy, 
+Besides the two stream strategy, there are still the other fusion strategy to fuse the motion information into apperance 
+features to provide additional infomation for building a strong representation of objects that evolves over time. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/LVO_NET.png}
+    \caption{LVO Network}
+    \label{LVO}
+\end{figure}
+
+Pavel $et.al$\cite{Tokmakov2017Learning} proposed a new network structures. In Fig\ref{LVO}, they use a motion network to extract motion features, which 
+take as side information to get the final prediction. The motion network is a pretrained network.
+
+We can improve the performance by combining apperance feature and motion features. However, how can we get good motion
+prediction by inputing optical flow images. Pavel $et.al$\cite{LMPV} proposed a encoder-decoder style to estimate the motion 
+of video directly.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/LMP_NET.png}
+    \caption{LMP Network}
+    \label{LMP}
+\end{figure}
+
+In Fig.\ref{LMP}, the input is the optical flow and the output is the moving probability of every single pixel. They use the U-net structure, which
+add some shortcut connection to add the coarse information to high level feature, which will greatly help enhance the feature representation power.
+After getting the motion map, we can directly use this to predict foreground objects in frames. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/LMP_results.png}
+    \caption{LMP Segmentation Pipeline}
+    \label{LMP_results}
+\end{figure}
+
+Fig.\ref{LMP_results} is the whole pipeline using motion map to predict the final foreground objects. Each row shows: (a) raw images,
+(b) optical flow estimated with LDOF \cite{brox2009large}, (c) output of motion network with LDOF flow as input, (d) objectness map computed with
+proposals \cite{pinheiro2016learning}, (e) initial moving object segmentation result, (f) refined result with CRF.
+
+We can observe that mapping motion prediction to final foreground segmentation is a realiable methods. The temporal cue can provide more realiable
+feature to help do prediciton. So it is critical to advantage the motion cue.
+
+
+\subsubsection{Visual Memory in Video Sequences}
+Motion cue can greatly help capture temporal information. However, motion just can capture the substantial frames and cannot encode more long range
+temporal information over several frames. In reality, the RNN have nature attributes that encoder long time dependency. However, the RNN just can 
+receive the vector. So representation power is very limited. So Pavel $et.al$\cite{Tokmakov2017Learning} replace the vector in LSTM by the convolution 
+operation, which can greatly improve representation power and is more suitable for video segmentation task.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.35\textwidth]{figure/LVO_CONVRRU.png}
+    \caption{convolutional GRU}
+    \label{CONVGRU}
+\end{figure}
+
+We can see from Fig.\ref{CONVGRU} that they replace the linear combination by convolution operations and a tanh nonlinearity. For frame $t$ in the video
+sequence, ConvGRU uses the two stream representation $x_t$ and previous state $h_{t-1}$ to compute the new state $h_t$. The dynamics of this computaiton 
+are guided by an update gate $z_t$, a forget gate $r_t$, The states  and the gates are $3$D tensor, and can cahracterizer spatio-temporal pattern in
+the video, effectively memorizing which objects move and where they move to. The ConvGRU applies a total of six convolutional opeartions at each time step.
+All operation are fully differentiable. So the parameters of the convolution can be trained in an end-to-end fashion wiht back propagation through times.
+But there are some drawbacks that the network is memory-comsuming. It's very hard to train. 
+
+In the paper, the author proposed a bidirectional CONVGRU, which can encode motion from the fisrt frame and the last from. This technicial can improve the feature
+representation power further. As the expriments shown, the bidirectional CONVGRU bring $5\%$ improvements.
+
+\subsubsection{Hand Craft Methods}
+As we all know, deep learning method make huge progress in computer vision. Howerver, there are still a mount of traditional method based on 
+hand craft features, which can produce comparable result with deep learning. Sometimes the traditional method is easy to explainable and stable.
+
+Most current methods for unconstrined
+
+
 
 
 
