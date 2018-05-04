@@ -151,10 +151,16 @@ In the paper, the author proposed a bidirectional CONVGRU, which can encode moti
 representation power further. As the expriments shown, the bidirectional CONVGRU bring $5\%$ improvements.
 
 \subsubsection{Hand Craft Methods}
+
 As we all know, deep learning method make huge progress in computer vision. Howerver, there are still a mount of traditional method based on 
 hand craft features, which can produce comparable result with deep learning. Sometimes the traditional method is easy to explainable and stable.
 
-Most current methods for unconstrined
+Most current methods for unconstrined fg/bg video segmentation are graph-based \cite{Lee2011Key, Papazoglou2013Fast, zhang2013video}. The video
+is represented using an Markov Random Field graphical model which consist of a fg/bg data term for each pixel and pairwise
+terms between neighboring pixels. The data term is iteratively refined by learning learning color model of the foreground
+and background. For computational reasons, the pairwise  terms are typical considered only between adjacent pixels inthe same 
+frame and corresponding pixels in adjacent frames(using optical flow).
+
 
 
 
