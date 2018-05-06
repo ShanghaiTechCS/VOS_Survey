@@ -56,16 +56,10 @@ In the upsampling part, U-Net has also a large number of feature channels, which
     \caption{U-Net framework}
     \label{unet}
 \end{figure*}
-
-
 \subsection{Common Method for Video}
 
 \subsubsection{Optical Flow}
-Video object segmentation is challenging due to fast moving objects, deforming shapes, and cluttered backgrounds. optical flow can be used to propagate an object segmentation over time but, unfortunately, flow is often inaccurate, particularly around object boundaries. Such boundaries are precisely where we want our segmentation to be accurate. To obtain accurate segmentation across time,  we propose an efﬁcient algorithm that considers video segmentation and optical ﬂow estimation simultaneously. For video segmentation, we formulate a principled, multiscale, spatio-temporal objective function that uses optical ﬂow to propagate information between frames. For optical ﬂow estimation, particularly at object boundaries, we compute the ﬂow independently in the segmented regions and recompose the results. We call the process object ﬂow and demonstrate the effectiveness of jointly optimizing optical ﬂow and video segmentation using an iterative scheme. Experiments on the SegTrack v2 and YoutubeObjects datasets show that the proposed algorithm performs favorably against the other state-of-the-art methods.
-
-First, we propose a multi-level spatial-temporal graphical model for video object segmentation and demonstrate that it performs better than single-level models. Second, we show that the segmentation results can be used to reﬁne the optical ﬂow, and vice versa, in the proposed object ﬂow algorithm. Third, we demonstrate that our joint model of segmentation and optical ﬂow can be efﬁciently computed by iterative optimization.
-
-\subsubsection{Spatial Attention}
+Video object segmentation is challenging due to fast moving objects, deforming shapes, and cluttered backgrounds. optical flow can be used to propagate an object segmentation over time but, unfortunately, flow is often inaccurate, particularly around object boundaries. Such boundaries are precisely where we want our segmentation to be accurate. To obtain accurate segmentation across time.  Tsai \etal propose an efﬁcient algorithm\cite{OFL}  that considers video segmentation and optical ﬂow estimation simultaneously, formulate a principled, multiscale, spatio-temporal objective function that uses optical ﬂow to propagate information between frames. For optical ﬂow estimation, particularly at object boundaries.they show that segmentation results can be used to reﬁne the optical ﬂow, and vice versa, in the proposed object ﬂow algorithm, and can be efﬁciently computed by iterative optimization.
 
 
 \subsection{Common Method for One-Shot}
