@@ -81,7 +81,10 @@ Video object segmentation is challenging due to fast moving objects, deforming s
 
 
 \subsubsection{Mask Warp}
-We use flow in two complementary ways. First, to obtain a better initial estimate of M t we warp M t−1 using the flow F t : M t = f I (I t , w(M t−1 , F t )); we call this "mask warping". Second, we use flow as a direct source of information about the mask M t . As can be seen in Figure 2, when the object is moving relative to background, the flow magnitude kF t k provides a very reasonable estimate of the mask M t . We thus consider using a convnet specifically for mask estimation from flow: M t = f F (F t , w(M t−1 , F t )), and merge it with the image-only version by naive averaging.
+Mask Warp\cite{LucidTracker} use flow in two complementary ways. First, to obtain a better initial estimate of $M_t$ it warp $M_{t−1}$ using the flow $\mathcal{F}_t : M_t = f_I (\mathcal{I}_t , w(M_{t-1} , F_{t}))$, then use flow as a direct source of information about the mask $M_t$.When the object is moving relative to background, the flow magnitude $||\mathcal{F}_t||$ provides a very reasonable estimate of the mask $M_t$.Consider using a convnet specifically for mask estimation from flow:$M_t = f_{\mathcal{F}} (\mathcal{F}_t , w(M_{t-1} , \mathcal{F}_t))$, and merge it with the image-only version by naive averaging:
+\begin{align*}
+    M_t = 0.5 * f_I(I_t, ...) + 0.5 * f_\mathcal{F}(\mathcal{F}_t, ...)
+\end{align*}
 
 \subsection{Common Method for One-Shot}
 
@@ -99,6 +102,7 @@ To train the video segmentation network one would think of using ground truth da
     \caption{Data Dream on DAVIS-2016 Sequence}
     \label{data dream}
 \end{figure}
+
 
 Ideally training data should be as similar as possible to the test data, even subtle differences may affect quality (e.g. training on static images for testing on videos under-performs \cite{tang2012shifting}). To ensure our training data is in-domain, \cite{LucidTracker} propose to generate it by synthesizing samples from the provided annotated frame (first frame) in each target video. This is akin to “lucid dreaming” as we intentionally “dream” the desired data by creating sample images that are plausible hypothetical future frames of the video. The outcome of this process is a large set of frame pairs in the target domain (2.5k pairs per annotation) with known optical flow and mask annotations, see Fig.\ref{data dream}.
 
