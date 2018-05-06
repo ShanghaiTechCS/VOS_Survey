@@ -46,13 +46,13 @@ Jain $et.al$ \cite{Jain2017FusionSeg} propose an end-to-end learning framework f
 which learns to combine appearance and motion information to produce pixel level segmentation masks for all prominent objects.
 They design a two-stream fully convolutional neural network which fuses together motion and apperance in a unified framework.
 
-\begin{figure}
+\begin{figure*}
     \begin{center}
-    \includegraphics[width=0.5\textwidth]{figure/FSEG_NET.png}
+    \includegraphics[width=\textwidth]{figure/FSEG_NET.png}
     \end{center}
     \caption{FSEG Network}
     \label{FSEG}
-\end{figure}
+\end{figure*}
 
 As shown in Fig \ref{FSEG}, the network can take two different inputs, which are raw images and optical flow images respectively.
 The motion branch can map the motion into foreground objects, which can greatly capture temporal infomation.

@@ -68,6 +68,7 @@ Optical flow or optic flow is the pattern of apparent motion of objects, surface
     \label{optical flow}
 \end{figure}
 
+
 Video object segmentation is challenging due to fast moving objects, deforming shapes, and cluttered backgrounds. optical flow can be used to propagate an object segmentation over time but, unfortunately, flow is often inaccurate, particularly around object boundaries. Such boundaries are precisely where we want our segmentation to be accurate. To obtain accurate segmentation across time.  Tsai \etal propose an efficient algorithm\cite{OFL}  that considers video segmentation and optical flow estimation simultaneously, formulate a principled, multiscale, spatio-temporal objective function that uses optical flow to propagate information between frames. For optical flow estimation, particularly at object boundaries.they show that segmentation results can be used to refine the optical flow, and vice versa, in the proposed object flow algorithm, and can be efficiently computed by iterative optimization.
 
 
