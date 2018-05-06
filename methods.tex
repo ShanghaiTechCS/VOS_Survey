@@ -1,19 +1,40 @@
 \section{Methods}
 
 \subsection{Semi-supervised VOS}
-
 \subsubsection{OSVOS}
+OSVOS\cite{OSVOS} based on a fully-convolutional neural network architecture that is able to successively transfer generic semantic information, learned on ImageNet\cite{Krizhevsky2012ImageNet}, to the task of foreground segmentation, and ﬁnally to learning the appearance of a single annotated object of the test sequence (hence one-shot). Although all frames are processed independently, the results are temporally coherent and stable. OSVOS processes each frame of a video independently(architecture has been shown in Fig.\ref{osvos_fcn}), obtaining temporal consistency as a by-product rather than as the result of an explicitly imposed, expensive constraint. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/osvos_fcn.png}
+    \caption{VGG based two stream FCN}
+    \label{osvos_fcn}
+\end{figure}
+
+OSVOS can work at various points of the trade-off between speed and accuracy. In this sense, it can be adapted in two ways. First, given one annotated frame, the user can choose the level of ﬁne-tuning of OSVOS, giving him/her the freedom between a faster method or more accurate results. Experimentally, we show that OSVOS can run at 181 ms per frame and 71.5\% accuracy, and up to 79.7\% when processing each frame in 7.83 s. Second, the user can annotate more frames, those on which the current segmentation is less satisfying, upon which OSVOS will reﬁne the result.
 
 \subsubsection{LucidTracker}
-
+LucidTracker\cite{LucidTracker} propose a new training strategy which is suitable for both single and multiple object tracking. Instead of using large training sets hoping to generalize across domains, it generate in-domain training data using the provided annotation on the ﬁrst frame of each video to synthesize (``lucid dream'', which has been shown in Sec 2.4.2). This approach allows to reach competitive results even when training from only a single annotated frame, without ImageNet pre-training. LucidTracker indicate that using a larger training set is not automatically better, and that for the tracking task a smaller training set that is closer to the target domain is more effective. This changes the mindset regarding how many training samples and general ``objectness'' knowledge are required for the object tracking task.
 
 \subsubsection{PML}
+This paper tackles the problem of video object segmentation, given some user annotation which indicates the object of interest. The problem is formulated as pixel-wise retrieval in a learned embedding space: we embed pixels of the same object instance into the vicinity of each other, using a fully convolutional network trained by a modiﬁed triplet loss as the embedding model. Then the annotated pixels are set as reference and the rest of the pixels are classiﬁed using a nearest-neighbor approach. The proposed method supports different kinds of user input such as segmentation mask in the ﬁrst frame (semi-supervised scenario), or a sparse set of clicked points (interactive scenario). In the semi-supervised scenario, we achieve results competitive with the state of the art but at a fraction of computation cost (275 milliseconds per frame). In the interactive scenario where the user is able to reﬁne their input iteratively, the proposed method provides instant response to each input, and reaches comparable quality to competing methods with much less interaction.
+
+There are several main advantages of our formulation: Firstly, the proposed method is highly efﬁcient as there is no ﬁne-tuning in test time, and it only requires a single forward pass through the embedding network and a nearest-neighbor search to process each frame. Secondly, our method provides the ﬂexibility to support different types of user input (i.e. clicked points, scribbles, segmentation masks, etc.) in an uniﬁed framework. Moreover, the embedding process is independent of user input, thus the embedding vectors do not need to be recomputed when the user input changes, which makes our method ideal for the interactive scenario.
 
 
 \subsubsection{DyeNet}
+The problem of video object segmentation can become extremely challenging when multiple instances co-exist. While each instance may exhibit large scale and pose variations, the problem is compounded when instances occlude each other causing failures in tracking. In this study, we formulate a deep recurrent network that is capable of segmenting and tracking objects in video simultaneously by their temporal continuity, yet able to re-identify them when they re-appear after a prolonged occlusion. We combine both temporal propagation and re-identiﬁcation functionalities into a single framework that can be trained end-to-end. In particular, we present a re-identiﬁcation module with template expansion to retrieve missing objects despite their large appearance changes. In addition, we contribute a new attention-based recurrent mask propagation approach that is robust to distractors not belonging to the target segment. Our approach achieves a new state-of-the-art global mean (Region Jaccard and Boundary F measure) of 68.2 on the challenging DAVIS 2017 benchmark [28] (test-dev set), outperforming the winning solution [21] which achieves a global mean of 66.1 on the same partition 1 .
 
+Our contributions are summarized as follows. (1) We propose a novel approach that joints template matching and temporal propagation into a uniﬁed deep neural network for addressing video object segmentation with multiple instances. The network can be trained end-to-end. It does not require online training (i.e., ﬁne-tune using the masks of the ﬁrst frame) to do well but can achieve better results with online training. (2) We present an effective template expansion approach to better retrieve missing targets that reappear with different poses and scales. (3) We present a new attention-based recurrent mask propagation module that is more resilient to distractors.
 
 \subsubsection{CTN}
+A semi-supervised online video object segmentation algorithm, which accepts user annotations about a target object at the ﬁrst frame, is proposed in this work. We propagate the segmentation labels at the previous frame to the current frame using optical ﬂow vectors. However, the propagation is error-prone. Therefore, we develop the convolutional trident network (CTN), which has three decoding branches: separative, deﬁnite foreground, and deﬁnite background decoders. Then, we perform Markov random ﬁeld optimization based on outputs of the three decoders. We sequentially carry out these processes from the second to the last frames to extract a segment track of the target object. Experimental results demonstrate that the proposed algorithm signiﬁcantly outperforms the state-of-the-art conventional algorithms on the DAVIS benchmark dataset.
+
+Development of the effective CTN, which yields three tailored probability maps for the MRF optimization.
+
+Implementation of a fast online algorithm for segmenting long videos in practical applications.
+
+Remarkable performance on the DAVIS benchmark dataset, which consists of challenging videos.
 
 
 \subsection{Unsupervised VOS}
