@@ -6,6 +6,23 @@ any evaluation measure ultimately has to answerthe question how well $M$ fits $G
 for images one can use two complementary points of view, regionbased and contour-based measures. As videos extends the
 dimensionality of still images to time, the temporal stability of the results must also be considered.
 
+\begin{table*}[ht]
+	\begin{center}
+		\setlength\tabcolsep{3pt}
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+Dataset& Metrics                   &FSEG~\cite{Jain2017FusionSeg}  &LVO~\cite{Tokmakov2017Learning} &LMP~\cite{Tokmakov2017Learning} & POS~\cite{Koh2017Primary} &IET~\cite{li2018instance}\\
+\hline
+\multirow{2}{*}{DAVIS} &$\J$ mean  &71.51                           &75.9                           &69.7                            &76.3                          &78.5\\
+\cline{2-7}
+&$\F$ Mean                         &   --                           &72.1                           &66.3                            &71.1                          &75.5\\
+\hline
+\end{tabular}
+\end{center}
+\caption{The result of unsupervised methods on DAVIS datasets.}
+\label{table:unsuperivsed_all_dataset}
+\end{table*}
+
 \subsubsection{Accuracy}
 \paragraph{Region Similarity $\J$}
 To measure the region-based segmentation similarity, i.e. the number of mislabeled pixels,
@@ -27,6 +44,8 @@ Temporal stability $\T$. Intuitively, $\J$ measures how well the pixels of the t
 accuracy of the contours. However, temporal stability of the results is a relevant aspect in video object segmentationsince the evolution of object shapes is an important cue for
 recognition and jittery, unstable boundaries are unacceptable in video editing applications. 
 
+
+
 \subsection{Results}
 \subsection{Semi-supervised VOS}
 
@@ -39,20 +58,4 @@ temporal information, but it is still not powerful enough. The visual memory mod
 \cite{Koh2017Primary,li2018instance}, they can also gain impressive performance in DAVIS dataset because they can design some specifical feature to model sequences data. Li $et.al$ use instance embedding method
 to force the algorithm to learn the instance concepts. So they can get excellent performance in instance segmentation setting.
 
-\begin{table*}[t!h]
-	\begin{center}
-		\setlength\tabcolsep{3pt}
-		\begin{tabular}{|c|c|c|c|c|c|c|}
-		\hline
-Dataset& Metrics                   &FSEG~\cite{Jain2017FusionSeg}  &LVO~\cite{Tokmakov2017Learning} &LMP~\cite{Tokmakov2017Learning} & POS~\cite{Koh2017Primary} &IET~\cite{li2018instance}\\
-\hline
-\multirow{2}{*}{DAVIS} &$\J$ mean  &71.51                           &75.9                           &69.7                            &76.3                          &78.5\\
-\cline{2-7}
-&$\F$ Mean                         &   --                           &72.1                           &66.3                            &71.1                          &75.5\\
-\hline
-\end{tabular}
-\end{center}
 
-\caption{The result of unsupervised methods on DAVIS datasets.}
-\label{table:unsuperivsed_all_dataset}
-\end{table*}
