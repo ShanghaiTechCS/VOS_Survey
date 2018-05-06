@@ -16,10 +16,24 @@ OSVOS can work at various points of the trade-off between speed and accuracy. In
 \subsubsection{LucidTracker}
 LucidTracker\cite{LucidTracker} propose a new training strategy which is suitable for both single and multiple object tracking. Instead of using large training sets hoping to generalize across domains, it generate in-domain training data using the provided annotation on the ﬁrst frame of each video to synthesize (``lucid dream'', which has been shown in Sec 2.4.2). This approach allows to reach competitive results even when training from only a single annotated frame, without ImageNet pre-training. LucidTracker indicate that using a larger training set is not automatically better, and that for the tracking task a smaller training set that is closer to the target domain is more effective. This changes the mindset regarding how many training samples and general ``objectness'' knowledge are required for the object tracking task.
 
-\subsubsection{PML}
-This paper tackles the problem of video object segmentation, given some user annotation which indicates the object of interest. The problem is formulated as pixel-wise retrieval in a learned embedding space: we embed pixels of the same object instance into the vicinity of each other, using a fully convolutional network trained by a modiﬁed triplet loss as the embedding model. Then the annotated pixels are set as reference and the rest of the pixels are classiﬁed using a nearest-neighbor approach. The proposed method supports different kinds of user input such as segmentation mask in the ﬁrst frame (semi-supervised scenario), or a sparse set of clicked points (interactive scenario). In the semi-supervised scenario, we achieve results competitive with the state of the art but at a fraction of computation cost (275 milliseconds per frame). In the interactive scenario where the user is able to reﬁne their input iteratively, the proposed method provides instant response to each input, and reaches comparable quality to competing methods with much less interaction.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/lucid_tracker.png}
+    \caption{Overview of the proposed one and two streams architectures in LucidTracker}
+    \label{lucid_tracker}
+\end{figure}
 
-There are several main advantages of our formulation: Firstly, the proposed method is highly efﬁcient as there is no ﬁne-tuning in test time, and it only requires a single forward pass through the embedding network and a nearest-neighbor search to process each frame. Secondly, our method provides the ﬂexibility to support different types of user input (i.e. clicked points, scribbles, segmentation masks, etc.) in an uniﬁed framework. Moreover, the embedding process is independent of user input, thus the embedding vectors do not need to be recomputed when the user input changes, which makes our method ideal for the interactive scenario.
+\subsubsection{PML}
+PML\cite{PML} embed pixels of the same object instance into the vicinity of each other, using a fully convolutional network trained by a modiﬁed triplet loss as the embedding model. Then the annotated pixels are set as reference and the rest of the pixels are classiﬁed using a nearest-neighbor approach. The proposed method supports different kinds of user input such as segmentation mask in the ﬁrst frame (semi-supervised scenario), or a sparse set of clicked points (interactive scenario). details of PML is shown in Fig.\ref{PML}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/PML.png}
+    \caption{Overview of \textbf{PML}: Here we assume the user input is provided in the form of full segmentation mask for the reference frame, but interactions of other kind are supported as well}
+    \label{PML}
+\end{figure}
+
+There are several main advantages of PML: Firstly, the proposed method is highly efﬁcient as there is no ﬁne-tuning in test time, and it only requires a single forward pass through the embedding network and a nearest-neighbor search to process each frame. Secondly, our method provides the ﬂexibility to support different types of user input (i.e. clicked points, scribbles, segmentation masks, etc.) in an uniﬁed framework. Moreover, the embedding process is independent of user input, thus the embedding vectors do not need to be recomputed when the user input changes, which makes our method ideal for the interactive scenario.
 
 
 \subsubsection{DyeNet}
