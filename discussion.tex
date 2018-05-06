@@ -38,35 +38,72 @@ recognition and jittery, unstable boundaries are unacceptable in video editing a
 \subsubsection{Multiple Objects Semi-supervised VOS}
 
 \subsubsection{Unsupervised VOS}
+As shown in Table\ref{table:unsuperivsed_all_dataset}, we can compare the performance of difference algorithm. In generally, the method based on deep learning would excel the the traditional 
+methods．The method combined spatial-temporal information can greatly help improve performance in paper\cite{Tokmakov2017Learning}. And in normal case, optical flow method can help capture the 
+temporal information, but it is still not powerful enough. The visual memory module applied in temporal can help improve $4.4\%$ in $\J$ evaluation metrics. Let us see some traditional methods,like
+\cite{Koh2017Primary,li2018instance}, they can also gain impressive performance in DAVIS dataset because they can design some specifical feature to model sequences data. Li $et.al$ use instance embedding method
+to force the algorithm to learn the instance concepts. So they can get excellent performance in instance segmentation setting.
+
+%  \begin{table*}[t!h]
+% 	\begin{center}
+% 		\setlength\tabcolsep{3pt}
+% 		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+% 			\hline
+% 			Dataset& Metrics&NLC~\cite{Faktor2014Video} &CUT~\cite{Keuper2015Motion} &FST~\cite{Papazoglou2013Fast} &SFL~\cite{Cheng2017SegFlow:} &LMP~\cite{Tokmakov2017Learning} &FSEG~\cite{Jain2017FusionSeg}  &LVO~\cite{Tokmakov2017Learning} & ARP~\cite{Koh2017Primary} &IET~\cite{Li2018Instance}\\
+% 			\hline
+% 			\multirow{2}{*}{DAVIS} &$\J$ Mean &55.1     &55.2                        &55.8                          &67.4                         &69.7                             &71.5                           &75.9                           &76.2                       &78.5 \\
+% 			\cline{2-11}
+% 			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 & 66.3 & infea &72.1 &70.6 &75.5 \\
+% 			\hline
+% 			\multirow{2}{*}{SegTrack} &$\J$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &61.4 & infea &70.6 &75.5 \\
+% 			\cline{2-11}
+% 			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &infea &infea &70.6 &75.5 \\
+% 			\hline
+
+% 			\multirow{2}{*}{Youtube} &$\J$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &68.57 &infea &70.6 &75.5 \\
+% 			\cline{2-11}
+% 			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &infea &infea &70.6 &75.5  \\
+% 			\hline
+% 		\end{tabular}
+% 	\end{center}
+% 	\caption{The result of unsupervised methods on the Video Objects Segmentation datasets .}
+% 	\label{table:unsuperivsed_all_dataset}
+% \end{table*}
+
+
+% \subsection{Summary}
+
 
 \begin{table*}[t!h]
 	\begin{center}
 		\setlength\tabcolsep{3pt}
-		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-			\hline
-			Dataset& Metrics&NLC~\cite{Faktor2014Video} &CUT~\cite{Keuper2015Motion} &FST~\cite{Papazoglou2013Fast}
-			&SFL~\cite{Cheng2017SegFlow:} &LMP~\cite{Tokmakov2017Learning} &FSEG~\cite{Jain2017FusionSeg} 
-			&LVO~\cite{Tokmakov2017Learning} & ARP~\cite{Koh2017Primary} 
-			&IET~\cite{Li2018Instance}\\
-			\hline
-			\multirow{2}{*}{DAVIS} &$\J$ Mean &55.1 &55.2 &55.8 &67.4 &69.7 &71.5 &75.9 &76.2 &78.5 \\
-			\cline{2-11}
-			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 & 66.3 & infea &72.1 &70.6 &75.5 \\
-			\hline
-			\multirow{2}{*}{SegTrack} &$\J$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &61.4 & infea &70.6 &75.5 \\
-			\cline{2-11}
-			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &infea &infea &70.6 &75.5 \\
-			\hline
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+Dataset& Metrics                   &FSEG~\cite{Jain2017FusionSeg}  &LVO~\cite{Tokmakov2017Learning} &LMP~\cite{Tokmakov2017Learning} & POS~\cite{Koh2017Primary} &IET~\cite{li2018instance}\\
+\hline
+\multirow{2}{*}{DAVIS} &$\J$ mean  &71.51                           &75.9                           &69.7                            &76.3                          &78.5\\
+\cline{2-7}
+&$\F$ Mean                         &   --                           &72.1                           &66.3                            &71.1                          &75.5\\
+\hline
+% \multirow{2}{*}{SegTrack} &$\J$Mean&61.4                            &57.3                           &--                              &80                          &--\\
+% \cline{2-7}
 
-			\multirow{2}{*}{Youtube} &$\J$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &68.57 &infea &70.6 &75.5 \\
-			\cline{2-11}
-			&$\F$ Mean &52.3 &55.2 &51.1 &66.7 &65.9 &infea &infea &70.6 &75.5  \\
-			\hline
-		\end{tabular}
-	\end{center}
-	\caption{The result of unsupervised methods on the Video Objects Segmentation datasets .}
-	\label{table:unsuperivsed_all_dataset}
+% &$\F$ Mean                         &  --                            & --                            &--                              &--                          &--  \\
+% \hline
+% \multirow{2}{*}{Youtube} &$\J$ Mean&68.57                           & --                            &--                              &--                          &-- \\
+% \cline{2-7} 
+% &$\F$ Mean                         &  --                            & --                            &--                              &--                          &--   \\
+% \hline
+\end{tabular}
+\end{center}
+
+\caption{The result of unsupervised methods on DAVIS datasets.}
+\label{table:unsuperivsed_all_dataset}
 \end{table*}
+
+
+
 \subsection{Summary}
+pass
 
 \subsection{Future Research Directions}
