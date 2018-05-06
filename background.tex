@@ -49,17 +49,26 @@ In \cite{SegNet}, Badrinarayanan \etal present a deep fully convolutional neural
 Ronneberger \etal propose U-Net for biomedical image segmentation in \cite{Ronneberger2015U}. The architecture of U-Net consists of a contracting path to capture context and a symmetric expanding path that enables precise localization. 
 In the upsampling part, U-Net has also a large number of feature channels, which allow the network to propagate context information to higher resolution layers. As a consequence, the expansive path is more or less symmetric to the contracting path, and yields a u-shaped architecture.
 
-\begin{figure*}
-    \begin{center}
-        \includegraphics[width=\textwidth]{figure/unet.png}
-    \end{center}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/unet.png}
     \caption{U-Net framework}
     \label{unet}
-\end{figure*}
+\end{figure}
+
 \subsection{Common Method for Video}
 
 \subsubsection{Optical Flow}
-Video object segmentation is challenging due to fast moving objects, deforming shapes, and cluttered backgrounds. optical flow can be used to propagate an object segmentation over time but, unfortunately, flow is often inaccurate, particularly around object boundaries. Such boundaries are precisely where we want our segmentation to be accurate. To obtain accurate segmentation across time.  Tsai \etal propose an efﬁcient algorithm\cite{OFL}  that considers video segmentation and optical ﬂow estimation simultaneously, formulate a principled, multiscale, spatio-temporal objective function that uses optical ﬂow to propagate information between frames. For optical ﬂow estimation, particularly at object boundaries.they show that segmentation results can be used to reﬁne the optical ﬂow, and vice versa, in the proposed object ﬂow algorithm, and can be efﬁciently computed by iterative optimization.
+Optical flow or optic flow is the pattern of apparent motion of objects, surfaces, and edges in a visual scene caused by the relative motion between an observer and a scene.The concept of optical flow was introduced by the American psychologist James J. Gibson in the 1940s to describe the visual stimulus provided to animals moving through the world.\cite{OpticalFlow} Gibson stressed the importance of optic flow for affordance perception, the ability to discern possibilities for action within the environment. Followers of Gibson and his ecological approach to psychology have further demonstrated the role of the optical flow stimulus for the perception of movement by the observer in the world; perception of the shape, distance and movement of objects in the world; and the control of locomotion. Fig. \ref{optical flow} shows that an example of optical flow with L2-norm for motion estimation. 
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/opticalflow.png}
+    \caption{Optical flow with L2-norm}
+    \label{optical flow}
+\end{figure}
+
+Video object segmentation is challenging due to fast moving objects, deforming shapes, and cluttered backgrounds. optical flow can be used to propagate an object segmentation over time but, unfortunately, flow is often inaccurate, particularly around object boundaries. Such boundaries are precisely where we want our segmentation to be accurate. To obtain accurate segmentation across time.  Tsai \etal propose an efﬁcient algorithm\cite{OFL}  that considers video segmentation and optical flow estimation simultaneously, formulate a principled, multiscale, spatio-temporal objective function that uses optical flow to propagate information between frames. For optical flow estimation, particularly at object boundaries.they show that segmentation results can be used to reﬁne the optical flow, and vice versa, in the proposed object flow algorithm, and can be efﬁciently computed by iterative optimization.
 
 
 \subsection{Common Method for One-Shot}
@@ -67,12 +76,13 @@ Video object segmentation is challenging due to fast moving objects, deforming s
 \subsubsection{Fine-Tune}
 Let us assume that one would like to segment an object in a video, for which the only available piece of information is its foreground/background segmentation in one frame. Intuitively, one could analyze the entity, create a model, and search for it in the rest of the frames. For humans, this very limited amount of information is more than enough, and changes in appearance, shape, occlusions, etc. do not pose a signiﬁcant challenge, because we leverage strong priors: ﬁrst “It is an object,” and then “It is this particular object.” Our method is inspired by this gradual reﬁnement.
 
-We train a Fully Convolutional Neural Network (FCN) for the binary classiﬁcation task of separating the foreground object from the background. We use two successive training steps: First we train on a large variety of objects, ofﬂine, to construct a model that is able to discriminate the general notion of a foreground object, i.e., “It is an object.” Then, at test time, we ﬁne-tune the network for a small number of iterations on the particular instance that we aim to segment, i.e., “It is this particular object.” The overview of our method is illustrated in Figure 2.
+We train a Fully Convolutional Neural Network (FCN) for the binary classiﬁcation task of separating the foreground object from the background. We use two successive training steps: First we train on a large variety of objects, offline, to construct a model that is able to discriminate the general notion of a foreground object, i.e., “It is an object.” Then, at test time, we ﬁne-tune the network for a small number of iterations on the particular instance that we aim to segment, i.e., “It is this particular object.” The overview of our method is illustrated in Figure 2.
 
 \subsubsection{Data Dreaming}
 To train the function f one would think of using ground truth data for M t−1 and M t (like [9], [11], [12]), however such data is expensive to annotate and rare. [9] thus trains on a set of 30 videos (∼ 2k frames) and requires the model to transfer across multiple tests sets. [10] side-steps the need for consecutive frames by generating synthetic masks M t−1 from a saliency dataset of ∼ 10k images with their corresponding mask M t . We propose a new data generation strategy to reach better results using only ∼100 individual training frames.
 
-Ideally training data should be as similar as possible to the test data, even subtle differences may affect quality (e.g. training on static images for testing on videos under-performs [62]). To ensure our training data is in-domain, we propose to generate it by synthesizing samples from the provided annotated frame (ﬁrst frame) in each target video. This is akin to “lucid dreaming” as we intentionally “dream” the desired data by creating sample images that are plausible hypothetical future frames of the video. The outcome of this process is a large set of frame pairs in the target domain (2.5k pairs per annotation) with known optical ﬂow and mask annotations, see Figure 5.
+Ideally training data should be as similar as possible to the test data, even subtle differences may affect quality (e.g. training on static images for testing on videos under-performs [62]). To ensure our training data is in-domain, we propose to generate it by synthesizing samples from the provided annotated frame (ﬁrst frame) in each target video. This is akin to “lucid dreaming” as we intentionally “dream” the desired data by creating sample images that are plausible hypothetical future frames of the video. The outcome of this process is a large set of frame pairs in the target domain (2.5k pairs per annotation) with known optical flow and mask annotations, see Figure 5.
+
 
 \subsubsection{Mask Warp}
-We use ﬂow in two complementary ways. First, to obtain a better initial estimate of M t we warp M t−1 using the ﬂow F t : M t = f I (I t , w(M t−1 , F t )); we call this "mask warping". Second, we use ﬂow as a direct source of information about the mask M t . As can be seen in Figure 2, when the object is moving relative to background, the ﬂow magnitude kF t k provides a very reasonable estimate of the mask M t . We thus consider using a convnet speciﬁcally for mask estimation from ﬂow: M t = f F (F t , w(M t−1 , F t )), and merge it with the image-only version by naive averaging
+We use flow in two complementary ways. First, to obtain a better initial estimate of M t we warp M t−1 using the flow F t : M t = f I (I t , w(M t−1 , F t )); we call this "mask warping". Second, we use flow as a direct source of information about the mask M t . As can be seen in Figure 2, when the object is moving relative to background, the flow magnitude kF t k provides a very reasonable estimate of the mask M t . We thus consider using a convnet speciﬁcally for mask estimation from flow: M t = f F (F t , w(M t−1 , F t )), and merge it with the image-only version by naive averaging.
