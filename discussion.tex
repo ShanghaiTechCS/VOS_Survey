@@ -11,17 +11,41 @@ dimensionality of still images to time, the temporal stability of the results mu
 		\setlength\tabcolsep{3pt}
 		\begin{tabular}{|c|c|c|c|c|c|c|}
 		\hline
-Dataset& Metrics                   &FSEG~\cite{Jain2017FusionSeg}  &LVO~\cite{Tokmakov2017Learning} &LMP~\cite{Tokmakov2017Learning} & POS~\cite{Koh2017Primary} &IET~\cite{li2018instance}\\
+Dataset& Metrics &OSVOS~\cite{OSVOS}  &LucidTracker~\cite{LucidTracker} &PLM~\cite{PLM} & DyeNet~\cite{DyeNet} &CTN~\cite{CTN}\\
 \hline
-\multirow{2}{*}{DAVIS} &$\J$ mean  &71.51                           &75.9                           &69.7                            &76.3                          &78.5\\
+\multirow{2}{*}{DAVIS2016} &$\J$ mean  &79.8   &91.2     &70.2      &--    &73.5\\
 \cline{2-7}
-&$\F$ Mean                         &   --                           &72.1                           &66.3                            &71.1                          &75.5\\
+&$\F$ Mean      &80.6    &94.2  &62.5  &--  &69.3\\
+\hline
+\multirow{2}{*}{DAVIS2017} &$\J$ mean  &55.1   &63.4     &--      &67.3    &--\\
+\cline{2-7}
+&$\F$ Mean      &62.1    &69.9  &--        &71      &--\\
+\hline
+\end{tabular}
+\end{center}
+\caption{The result of semi-supervised methods on DAVIS datasets.}
+\label{table:semisuperivsed_all_dataset}
+\end{table*}
+
+\begin{table*}[ht]
+	\begin{center}
+		\setlength\tabcolsep{3pt}
+		\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+Dataset& Metrics &FSEG~\cite{Jain2017FusionSeg}  &LVO~\cite{Tokmakov2017Learning} &LMP~\cite{Tokmakov2017Learning} & POS~\cite{Koh2017Primary} &IET~\cite{li2018instance}\\
+\hline
+\multirow{2}{*}{DAVIS2016} &$\J$ mean  &71.51   &75.9     &69.7       &76.3    &78.5\\
+\cline{2-7}
+&$\F$ Mean      &   --    &72.1  &66.3        &71.1      &75.5\\
 \hline
 \end{tabular}
 \end{center}
 \caption{The result of unsupervised methods on DAVIS datasets.}
 \label{table:unsuperivsed_all_dataset}
 \end{table*}
+
+
+
 
 \subsubsection{Accuracy}
 \paragraph{Region Similarity $\J$}
@@ -47,12 +71,7 @@ recognition and jittery, unstable boundaries are unacceptable in video editing a
 
 
 \subsection{Results}
-\subsection{Semi-supervised VOS}
-
-
-
-\subsubsection{Unsupervised VOS}
-As shown in Table\ref{table:unsuperivsed_all_dataset}, we can compare the performance of difference algorithm. In generally, the method based on deep learning would excel the the traditional 
+As shown in Table\ref{table:unsuperivsed_all_dataset},\ref{table:semisuperivsed_all_dataset} we can compare the performance of difference algorithm. In generally, the method based on deep learning would excel the the traditional 
 methods．The method combined spatial-temporal information can greatly help improve performance in paper\cite{Tokmakov2017Learning}. And in normal case, optical flow method can help capture the 
 temporal information, but it is still not powerful enough. The visual memory module applied in temporal can help improve $4.4\%$ in $\J$ evaluation metrics. Let us see some traditional methods,like
 \cite{Koh2017Primary,li2018instance}, they can also gain impressive performance in DAVIS dataset because they can design some specifical feature to model sequences data. Li $et.al$ use instance embedding method

@@ -37,18 +37,27 @@ There are several main advantages of PML: Firstly, the proposed method is highly
 
 
 \subsubsection{DyeNet}
-The problem of video object segmentation can become extremely challenging when multiple instances co-exist. While each instance may exhibit large scale and pose variations, the problem is compounded when instances occlude each other causing failures in tracking. In this study, we formulate a deep recurrent network that is capable of segmenting and tracking objects in video simultaneously by their temporal continuity, yet able to re-identify them when they re-appear after a prolonged occlusion. We combine both temporal propagation and re-identiﬁcation functionalities into a single framework that can be trained end-to-end. In particular, we present a re-identiﬁcation module with template expansion to retrieve missing objects despite their large appearance changes. In addition, we contribute a new attention-based recurrent mask propagation approach that is robust to distractors not belonging to the target segment. Our approach achieves a new state-of-the-art global mean (Region Jaccard and Boundary F measure) of 68.2 on the challenging DAVIS 2017 benchmark [28] (test-dev set), outperforming the winning solution [21] which achieves a global mean of 66.1 on the same partition 1 .
+DyeNet\cite{DyeNet} formulate a deep recurrent network that is capable of segmenting and tracking objects in video simultaneously by their temporal continuity, yet able to re-identify them when they re-appear after a prolonged occlusion. DyeNet combine both temporal propagation and re-identiﬁcation functionalities into a single framework that can be trained end-to-end. In particular,it present a re-identiﬁcation module with template expansion to retrieve missing objects despite their large appearance changes. In addition, it contribute a new attention-based recurrent mask propagation approach that is robust to distractors not belonging to the target segment.
 
-Our contributions are summarized as follows. (1) We propose a novel approach that joints template matching and temporal propagation into a uniﬁed deep neural network for addressing video object segmentation with multiple instances. The network can be trained end-to-end. It does not require online training (i.e., ﬁne-tune using the masks of the ﬁrst frame) to do well but can achieve better results with online training. (2) We present an effective template expansion approach to better retrieve missing targets that reappear with different poses and scales. (3) We present a new attention-based recurrent mask propagation module that is more resilient to distractors.
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{./figure/DyeNet.png}
+    \caption{(a) The pipeline of \textbf{DyeNet}. The network hinges on two main modules, namely a re-identiﬁcation (Re-ID) module and a recurrent mask propagation (Re-MP) module. (b) The network architecture of the re-identiﬁcation (Re-ID) module.}
+    \label{DyeNet}
+\end{figure*}
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{./figure/CTN.png}
+    \caption{Overview of CTN}
+    \label{CTN}
+\end{figure*}
+
+
+DyeNet joints template matching and temporal propagation into a uniﬁed deep neural network for addressing video object segmentation with multiple instances(detail is shown in Fig.\ref{DyeNet}). The network can be trained end-to-end. It does not require online training (i.e., ﬁne-tune using the masks of the ﬁrst frame) to do well but can achieve better results with online training.In addition, DyeNet present an effective template expansion approach to better retrieve missing targets that reappear with different poses and scales.
 
 \subsubsection{CTN}
-A semi-supervised online video object segmentation algorithm, which accepts user annotations about a target object at the ﬁrst frame, is proposed in this work. We propagate the segmentation labels at the previous frame to the current frame using optical ﬂow vectors. However, the propagation is error-prone. Therefore, we develop the convolutional trident network (CTN), which has three decoding branches: separative, deﬁnite foreground, and deﬁnite background decoders. Then, we perform Markov random ﬁeld optimization based on outputs of the three decoders. We sequentially carry out these processes from the second to the last frames to extract a segment track of the target object. Experimental results demonstrate that the proposed algorithm signiﬁcantly outperforms the state-of-the-art conventional algorithms on the DAVIS benchmark dataset.
-
-Development of the effective CTN, which yields three tailored probability maps for the MRF optimization.
-
-Implementation of a fast online algorithm for segmenting long videos in practical applications.
-
-Remarkable performance on the DAVIS benchmark dataset, which consists of challenging videos.
+CTN\cite{CTN} propagate the segmentation labels at the previous frame to the current frame using optical ﬂow vectors, has three decoding branches(Detail has been show in Fig.\ref{CTN}): separative, deﬁnite foreground, and deﬁnite background decoders. Then,CTN perform Markov random ﬁeld optimization based on outputs of the three decoders. CTN sequentially carry out these processes from the second to the last frames to extract a segment track of the target object. 
 
 
 \subsection{Unsupervised VOS}
@@ -70,6 +79,14 @@ that move against a video's background or display different color statistics. To
 the object motion is the critical cue for identify salients objects throught entire video sequences. Next, we will introduce some important
 methods which is commonly used in unsupervised VOS.
 
+\begin{figure*}
+    \begin{center}
+    \includegraphics[width=\textwidth]{figure/FSEG_NET.png}
+    \end{center}
+    \caption{FSEG Network}
+    \label{FSEG}
+\end{figure*}
+
 \subsubsection{Motion in Video Sequences}
 In traditional static image semantic segmentation, the apperance information play an import role, which means that 
 the performance is enough good if we can extract more reliable apperance features. But in video setting, thera are various
@@ -80,14 +97,6 @@ to help locate objects in videos frames.
 Jain $et.al$ \cite{Jain2017FusionSeg} propose an end-to-end learning framework for segmenting generic objects in video,
 which learns to combine appearance and motion information to produce pixel level segmentation masks for all prominent objects.
 They design a two-stream fully convolutional neural network which fuses together motion and apperance in a unified framework.
-
-\begin{figure*}
-    \begin{center}
-    \includegraphics[width=\textwidth]{figure/FSEG_NET.png}
-    \end{center}
-    \caption{FSEG Network}
-    \label{FSEG}
-\end{figure*}
 
 As shown in Fig \ref{FSEG}, the network can take two different inputs, which are raw images and optical flow images respectively.
 The motion branch can map the motion into foreground objects, which can greatly capture temporal infomation.
