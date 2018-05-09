@@ -76,16 +76,21 @@ Video object segmentation is challenging due to fast moving objects, deforming s
     \begin{center}
         \includegraphics[width=\textwidth]{figure/fine_tune.png}
     \end{center}
-    \caption{Fine Tune Method Pipline}
+    \caption{Pipline of Fine Tune}
     \label{fine_tune}
 \end{figure*}
 
 
 \subsubsection{Mask Warp}
-Mask Warp\cite{LucidTracker} use flow in two complementary ways. First, to obtain a better initial estimate of $M_t$ it warp $M_{t−1}$ using the flow $\mathcal{F}_t : M_t = f_I (\mathcal{I}_t , w(M_{t-1} , F_{t}))$, then use flow as a direct source of information about the mask $M_t$.When the object is moving relative to background, the flow magnitude $||\mathcal{F}_t||$ provides a very reasonable estimate of the mask $M_t$.Consider using a convnet specifically for mask estimation from flow:$M_t = f_{\mathcal{F}} (\mathcal{F}_t , w(M_{t-1} , \mathcal{F}_t))$, and merge it with the image-only version by naive averaging:
-\begin{align*}
-    M_t = 0.5 * f_I(I_t, ...) + 0.5 * f_\mathcal{F}(\mathcal{F}_t, ...)
-\end{align*}
+Mask Warp\cite{LucidTracker} use flow in two complementary ways. First, to obtain a better initial estimate of $M_t$ it warp $M_{t-1}$ using the flow $\mathcal{F}_t : M_t = f_I (\mathcal{I}_t , w(M_{t-1} , F_{t}))$(In Fig.\ref{mask_warp}, we can see the whole pipline of Mask Warp clearly). Mask Warped result can provide a strongly prior of tracked object mask in current frame, which can used with current image and optical flow norm(which provide a prior of motion).
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{./figure/mask_warp.png}
+    \caption{Pipline of Mask Warp}
+    \label{mask_warp}
+\end{figure*}
+
 
 \subsection{Common Method for One-Shot}
 
