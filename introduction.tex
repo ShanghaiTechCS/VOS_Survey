@@ -17,6 +17,17 @@ semantic segmentation survey, which mainly apply the object segmentation on stil
 the more motion cues besides apperances cues. So the most methods are introduced here that combine spatial-temporal information together, which will give greatly benefits to tackle video objects 
 segmentation. 
 
+In Fig.\ref{VOS}, we introduced three different setting(all based on DAVIS challenges setting): Semantic Semi-Supervised Video Object Segmenation(a.k.a Semantic Semi-Supervised setting) use object mask which in first frame to track the object in least frames; Instance Semi-Supervised Video Object Segmenation(a.k.a Instance Semi-Supervised setting) also use 
+object mask which in first frame, which is same with Semantic Semi-Supervised setting, but there are multiple objects in first frame, and we need to differentiate each ohter; Unsupervised Video Obeject Segmentation(a.k.a Unsupervised setting) do not use any information about the tracked object, which just rely on motion and salient obejct as their prior knowledge.
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{./figure/VOS.png}
+    \caption{3 different setting in Video Object Segmentation: \textbf{Semantic Semi-Supervised Segmenation}(left), \textbf{Instance Semi-Supervised Segmentation}(right) and \textbf{Unsupervised Segmentation}(middle)}
+    \label{VOS}
+\end{figure*}
+
+
 The key contributions of our work are as follows:
 \begin{enumerate}
     \item  We provide a broad survey of existing network backbones and datasets that might be useful for video objects segmentation projects with deep learning techniques.
@@ -25,8 +36,8 @@ The key contributions of our work are as follows:
     \item  A thorough performance evaluation, which include the intersection of union and bounary accuracy.
     \item  A discussion about the aforementioned results, as well as a list of possible future works that might set the course of upcoming advances,
            and a conclusion summarizing the state of the art of the ﬁeld.
-    
 \end{enumerate}
+
 
 The remainder of this paper is organized as follows. Firstly, Section $2$ introduces the video objects segmentation problem as well as notation and conventions commonly used in the literature.
 Other background concepts such as common deep neural networks and several specially techniques for videos are also reviewed. Next, Section 3 describes existing datasets and corresponding attributes.
