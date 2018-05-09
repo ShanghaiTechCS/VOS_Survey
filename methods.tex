@@ -240,7 +240,10 @@ the update gate.
 In the paper, the author proposed a bidirectional CONVGRU, which can encode motion from the fisrt frame and the last from. This technicial can improve the feature
 representation power further. As the expriments shown, the bidirectional CONVGRU bring $5\%$ improvements.
 
+
+
 \subsubsection{Hand Craft Methods}
+
 
 As we all know, deep learning method make huge progress in computer vision. Howerver, there are still a mount of traditional method based on 
 hand craft features, which can produce comparable result with deep learning. Sometimes the traditional method is easy to explainable and stable.
@@ -258,10 +261,13 @@ frame and corresponding pixels in adjacent frames(using optical flow).
     \label{nlc}
 \end{figure}
 
+
+
 Alon et.al \cite{Faktor2014Video} address the problem iof Foreground/Background segmentation of “unconstrained”
 video. the ``unconstrained'' denotet the movin objects and the background scene may be highly non-rigid.  
 the camera may undergo a complex motion with 3D parallax; moving objects may suffer from motion blur, large scale and il-
-lumination changes, They propose a computationally efficient algorithm which is able to produce accurate results
+lumination changes,
+They propose a computationally efficient algorithm which is able to produce accurate results
 on a large variety of unconstrained videos. This is obtained by casting the video segmen-
 tation problem as a voting scheme on the graph of similar (‘re-occurring’) regions in the
 video sequence. They start from crude saliency votes at each pixel, and iteratively correct
@@ -270,6 +276,7 @@ power of our consensus voting comes from the non-locality of the region re-occur
 both in space and in time – enabling propagation of diverse and rich information across
 the entire video sequence.
 
+
 In the Figure.\ref{nlc}, Each video frame is split into many regions (superpixels in
 our current implementation), each reprsented by an appearance descriptor. (b) Neighboring descriptors
 in feature space represent similar (‘re-occurring’) regions, which are possibly far in space and time
@@ -277,11 +284,11 @@ in the video. (c) Each region is associated with a fg likelihood vote, initializ
 measure. (d) These votes are very noisy, thus votes of neighboring descriptors in feature space may
 have large entropy. (e) Consensus voting of neighboring descriptors (NNs) reveals the true fg likelihood
 of each region. (f) Thresholding the consensus values leads to a fg/bg segmentation of the video
+
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{figure/NLC_voting.png}
-    % \includegraphics[width=0.5\textwidth]{figure/NLC_voting.png}
-    \caption{Foreground Likelihood Votes}.
+    \includegraphics[width=0.40\textwidth]{figure/NLC_voting.png}
+    \caption{Foreground Likelihood Votes}
     \label{voting}
 \end{figure}
 
@@ -290,4 +297,46 @@ or visual saliency measures (top row). Red represents high fg-likelihood; grey r
 fg-likelihood (i.e, background pixels). This results in an initial ‘noisy’ and incomplete fg-likelihood
 maps (in some frames the fg-likelihood is uniformly set to zero – see text). Our non-local consensus
 voting ‘cleans’ the errors in the votes and converges to quite accurate fg-likelihood maps (bottom row).
+
+They just use the neighbor region to vote the most likely foreground region in the images. It is very time-consumeing  and not accurate 
+sometimes. But if we can insert some instacne concept in the network. We can collect more confidence result.
+
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figure/iet_arch.png}
+    \caption{The framework of Instance Embedding method}
+    \label{instance}
+\end{figure}
+
+Siyang et.al \cite{li2018instance} propose a method for unsupervised video object segmentation by transferring the knowledge encapsulated
+in image-based instance embedding networks.
+The instance embedding network produces an embedding vector for each pixel that enables identifying all pixels belonging to the same object.
+Though trained on static images, the instance embeddings are stable over consecutive video frames, which allows us to link objects together over time.
+Thus, we adapt the instance networks trained on static images to video object segmentation and incorporate the em-
+beddings with objectness and optical flow features, without model retraining or online fine-tuning.
+
+In Figure.\ref{instance}, Given the video sequences, the dense embeddings are obtained by applying an instance segmentation network trained on static images.
+Then representative embeddings, called seeds, are obtained. Seeds are linked across the whole sequence 
+(we show 3 consecutive frames as an illustration here). The seed with the highest score based on objectness and motion
+saliency is selected as the initial seed (in magenta) to grow the initial segmentation. Finally, more foreground seeds as well as background
+seeds are identified to refine the segmentation.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figure/iet_1.png}
+    \caption{The example of the chaning segmentation target}
+    \label{example}
+\end{figure}
+
+In Figure.\ref{example}, A car is the foreground
+in the top video while a car is the background in the bottom video.
+To address this issue, our method obtains embeddings for ob-
+ject instances and identifies representative embeddings for fore-
+ground/background and then segments the frame based on the rep-
+resentative embeddings. Left: the ground truth. Middle: A visu-
+alization of the embeddings projected into RGB space via PCA,
+along with representative points for the foreground (magenta) and
+background (blue). Right: the segmentation masks produced by
+the proposed method.
 
