@@ -161,12 +161,37 @@ operation, which can greatly improve representation power and is more suitable f
     \label{CONVGRU}
 \end{figure}
 
+\begin{align}
+　　　　　z_t &= \sigma(x_t*w_{xz} + h_{t-1}*w_{hz}+b_z)　\\
+　　　　　r_t &= \sigma(x_t*w_{xr} + h_{t-1}*w_{hr}+b_r) \\
+　　　　　\hat{h}_t &= tanh(x_t*w_{x\hat{h}} + r_t \odot w_{h\hat{h}}+b_{\hat{h}}) \\
+　　　　　h_t &= (1-z_t) \odot h_{t-1} + z_t \odot \hat{h}_t
+\end{align}
+
+Here is the update equation in CONVGRU, where the $*$ is the convolution operation and $\odot$ denote the elements-wise product.
 We can see from Fig.\ref{CONVGRU} that they replace the linear combination by convolution operations and a tanh nonlinearity. For frame $t$ in the video
 sequence, ConvGRU uses the two stream representation $x_t$ and previous state $h_{t-1}$ to compute the new state $h_t$. The dynamics of this computaiton 
 are guided by an update gate $z_t$, a forget gate $r_t$, The states  and the gates are $3$D tensor, and can cahracterizer spatio-temporal pattern in
 the video, effectively memorizing which objects move and where they move to. The ConvGRU applies a total of six convolutional opeartions at each time step.
 All operation are fully differentiable. So the parameters of the convolution can be trained in an end-to-end fashion wiht back propagation through times.
 But there are some drawbacks that the network is memory-comsuming. It's very hard to train. 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.35\textwidth]{figure/visual_memory.png}
+    \caption{Visual memory in ConvGRU}
+    \label{vis}
+\end{figure}
+
+We can see the from Figure \ref{vis}, The outputs of the motion stream alone (left) and the final segmentation result (right) of the two examples are
+shown in the top row in the figure. The five rows below correspond each to one of the 64 dimensions of $r_t$ and $(1− z_t)$.
+These activations are shown as a grayscale heat map. 
+High values for either of the two activations increases the influence of the previous state of a ConvGRU unit in the computation of the new state matrix. 
+If both values are low, the state in the corresponding locations is rewritten with a new value. 
+For the second row in Figure \ref{vis}, we observe the update gate being selective based on the appearance information, i.e., it updates the
+state for foreground objects and duplicates it for the background. Note that motion does not play a role in this case.
+This can be seen in the example of stationary people (in the
+background) on the right, that are treated as foreground by
+the update gate.
 
 In the paper, the author proposed a bidirectional CONVGRU, which can encode motion from the fisrt frame and the last from. This technicial can improve the feature
 representation power further. As the expriments shown, the bidirectional CONVGRU bring $5\%$ improvements.
