@@ -1,12 +1,3 @@
-\section{Discussion}
-
-\subsection{Evaluation Metrics}
-In a supervised evaluation framework, given a groundtruth mask $G$ on a particular frame and an output segmentation $M$,
-any evaluation measure ultimately has to answerthe question how well $M$ fits $G$. As justified in \cite{pont2016supervised}, 
-for images one can use two complementary points of view, regionbased and contour-based measures. As videos extends the
-dimensionality of still images to time, the temporal stability of the results must also be considered.
-
-
 \begin{table*}[ht]
 	\begin{center}
 		\setlength\tabcolsep{1pt}
@@ -46,6 +37,15 @@ Dataset& Metrics &FSEG~\cite{Jain2017FusionSeg}  &LVO~\cite{Tokmakov2017Learning
 \label{table:unsuperivsed_all_dataset}
 \end{table*}
 
+\section{Discussion}
+
+\subsection{Evaluation Metrics}
+In a supervised evaluation framework, given a groundtruth mask $G$ on a particular frame and an output segmentation $M$,
+any evaluation measure ultimately has to answerthe question how well $M$ fits $G$. As justified in \cite{pont2016supervised}, 
+for images one can use two complementary points of view, regionbased and contour-based measures. As videos extends the
+dimensionality of still images to time, the temporal stability of the results must also be considered.
+
+
 
 
 
@@ -73,8 +73,14 @@ recognition and jittery, unstable boundaries are unacceptable in video editing a
 
 
 \subsection{Results}
-As shown in Table\ref{table:unsuperivsed_all_dataset},\ref{table:semisuperivsed_all_dataset} we can compare the performance of difference algorithm. In generally, the method based on deep learning would excel the the traditional 
-methods．The method combined spatial-temporal information can greatly help improve performance in paper\cite{Tokmakov2017Learning}. And in normal case, optical flow method can help capture the 
+\subsubsection{Semi-Supervised Setting}
+Table\ref{table:semisuperivsed_all_dataset} presents an evaluation on DAVIS-2016 and DAVIS-2017  using evaluation metrics proposed in Sec 5.1. Three measures are used: region similarity in terms of intersection over union ($\J$), contour accuracy ($\F$, higher is better), We outperform all semi-supervised methods on these measures.
+
+We can find that LucidTracker\cite{LucidTracker} is start-of-the-art method on DAVIS2016 Setting, which is benefit from ``Data Dream'', improves the robustness of temporal propagation; On the ohter hand, DyeNet gets on the start-of-the-art location in DAVIS-2017, which is benefit from the combination of both temporal propagation and re-identification functionalities.
+
+\subsubsection{Unsupervised Setting}
+As shown in Table\ref{table:unsuperivsed_all_dataset}, we can compare the performance of difference algorithm. In generally, the method based on deep learning would excel the the traditional 
+methods．The method combined spatial-temporal information can greatly help improve performance in \cite{Tokmakov2017Learning}. And in normal case, optical flow method can help capture the 
 temporal information, but it is still not powerful enough. The visual memory module applied in temporal can help improve $4.4\%$ in $\J$ evaluation metrics. Let us see some traditional methods,like
 \cite{Koh2017Primary,li2018instance}, they can also gain impressive performance in DAVIS dataset because they can design some specifical feature to model sequences data. Li $et.al$ use instance embedding method
 to force the algorithm to learn the instance concepts. So they can get excellent performance in instance segmentation setting.
