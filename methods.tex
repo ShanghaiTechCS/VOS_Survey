@@ -37,13 +37,20 @@ $\textbf{OSVOS}^\textbf{S}$\cite{OSVOS-S} based on a fully-convolutional neural 
 
 $\text{OSVOS}^\text{S}$ extends the model of the object with explicit semantic information. In the example of Fig.\ref{OSVOS_S}, for instance, $\text{OSVOS}^\text{S}$ would like to leverage the fact that segmenting an object of the category person and that there is a single instance of it. In particular, it will use an instanceaware semantic segmentation algorithm to extract a list of proposal of object masks in each frame, along with their categories. Given the first annotated frame, $\text{OSVOS}^\text{S}$ will infer the categories of the objects of interest by finding the best-overlapping masks.
 
-
-
 $\text{OSVOS}^\text{S}$ can also work at various points of the trade-off between speed and accuracy, which is same with OSVOS. In this sense, given one annotated frame, the user can choose the level of fine-tuning performed on it, giving them the freedom between a faster method or more accurate results.
 
 
+\textbf{BVS}\cite{BVS} propose a novel approach to video segmentation that operates in bilateral space, who design a new energy on the vertices of a regularly sampled spatiotemporal bilateral grid, which can be solved efficiently using a standard graph cut label assignment. Using a bilateral formulation, the energy that it minimize implicitly approximates long-range, spatio-temporal connections between pixels while still containing only a small number of variables and only local graph edges. 
 
-\textbf{BVS}\cite{BVS}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{./figure/BVS.png}
+    \caption{\textbf{BVS} pipeline}
+    \label{BVS}
+\end{figure}
+
+In Fig.\ref{BVS}, we show the pipline(demonstrated on a 1D example) of BVS: Pixels are lifted into a 2D feature space (a), with two user assigned labels (red and green highlighted pixels). Values are accumulated on the vertices of a regular grid (b), a graph cut label assignment is computed on these vertices (c), and finally pixel values are sliced at at their original locations (c), showing the final segmentation (again, red and green boundaries).
+
 
 \textbf{PML}\cite{PML} embed pixels of the same object instance into the vicinity of each other, using a fully convolutional network trained by a modified triplet loss as the embedding model. Then the annotated pixels are set as reference and the rest of the pixels are classified using a nearest-neighbor approach. The proposed method supports different kinds of user input such as segmentation mask in the first frame (semi-supervised scenario), or a sparse set of clicked points (interactive scenario). details of PML is shown in Fig.\ref{PML}.
 
