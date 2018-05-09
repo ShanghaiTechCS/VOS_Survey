@@ -221,7 +221,7 @@ All operation are fully differentiable. So the parameters of the convolution can
 But there are some drawbacks that the network is memory-comsuming. It's very hard to train. 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.35\textwidth]{figure/visual_memory.png}
+    \includegraphics[width=0.4\textwidth]{figure/visual_memory.png}
     \caption{Visual memory in ConvGRU}
     \label{vis}
 \end{figure}
@@ -250,4 +250,44 @@ is represented using an Markov Random Field graphical model which consist of a f
 terms between neighboring pixels. The data term is iteratively refined by learning learning color model of the foreground
 and background. For computational reasons, the pairwise  terms are typical considered only between adjacent pixels inthe same 
 frame and corresponding pixels in adjacent frames(using optical flow).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figure/NLC.png}
+    \caption{The Non Local algorithm pipeline}
+    \label{nlc}
+\end{figure}
+
+Alon et.al \cite{Faktor2014Video} address the problem iof Foreground/Background segmentation of “unconstrained”
+video. the ``unconstrained'' denotet the movin objects and the background scene may be highly non-rigid.  
+the camera may undergo a complex motion with 3D parallax; moving objects may suffer from motion blur, large scale and il-
+lumination changes, They propose a computationally efficient algorithm which is able to produce accurate results
+on a large variety of unconstrained videos. This is obtained by casting the video segmen-
+tation problem as a voting scheme on the graph of similar (‘re-occurring’) regions in the
+video sequence. They start from crude saliency votes at each pixel, and iteratively correct
+those votes by ‘consensus voting’ of re-occurring regions across the video sequence. The
+power of our consensus voting comes from the non-locality of the region re-occurrence,
+both in space and in time – enabling propagation of diverse and rich information across
+the entire video sequence.
+
+In the Figure.\ref{nlc}, Each video frame is split into many regions (superpixels in
+our current implementation), each reprsented by an appearance descriptor. (b) Neighboring descriptors
+in feature space represent similar (‘re-occurring’) regions, which are possibly far in space and time
+in the video. (c) Each region is associated with a fg likelihood vote, initialized by a motion saliency
+measure. (d) These votes are very noisy, thus votes of neighboring descriptors in feature space may
+have large entropy. (e) Consensus voting of neighboring descriptors (NNs) reveals the true fg likelihood
+of each region. (f) Thresholding the consensus values leads to a fg/bg segmentation of the video
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{figure/NLC_voting.png}
+    % \includegraphics[width=0.5\textwidth]{figure/NLC_voting.png}
+    \caption{Foreground Likelihood Votes}.
+    \label{voting}
+\end{figure}
+
+In Figure\ref{voting} The fg-likelihood votes are initialized by crude motion
+or visual saliency measures (top row). Red represents high fg-likelihood; grey represents very low
+fg-likelihood (i.e, background pixels). This results in an initial ‘noisy’ and incomplete fg-likelihood
+maps (in some frames the fg-likelihood is uniformly set to zero – see text). Our non-local consensus
+voting ‘cleans’ the errors in the votes and converges to quite accurate fg-likelihood maps (bottom row).
 
