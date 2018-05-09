@@ -10,7 +10,8 @@
 
 
 \subsubsection{Template Matching}
-\textbf{Template Matching} based methods are widely used in visual tracking task\cite{OSVOS}\cite{OSVOS-S}\cite{BVS}\cite{PML}. Often, a fixed set of templates such as the masks of target objects in the first frame are used for matching targets. This paradigm fails in some challenging cases in DAVIS, as using a fixed set of templates cannot sufficiently cover large scale and pose variations. To mitigate the variations in both scale and pose across frames, exist-ing studies \cite{PML} exploit dynamic templates to maintain continuity of individual segmented regions across frames.
+
+\textbf{Template Matching} based methods are widely used in visual tracking task\cite{OSVOS}\cite{OSVOS-S}\cite{BVS}\cite{PML}. Often, a fixed set of templates such as the masks of target objects in the first frame are used for matching targets. To mitigate the variations in both scale and pose across frames, existing studies \cite{PML} exploit dynamic templates to maintain continuity of individual segmented regions across frames.
 
 \textbf{OSVOS}\cite{OSVOS} based on a fully-convolutional neural network architecture that is able to successively transfer generic semantic information, learned on ImageNet\cite{Krizhevsky2012ImageNet}, to the task of foreground segmentation, and finally to learning the appearance of a single annotated object of the test sequence (hence one-shot). Although all frames are processed independently, the results are temporally coherent and stable. OSVOS processes each frame of a video independently(architecture has been shown in Fig.\ref{osvos_fcn}), obtaining temporal consistency as a by-product rather than as the result of an explicitly imposed, expensive constraint. 
 
@@ -65,6 +66,23 @@ There are several main advantages of PML: Firstly, the proposed method is highly
 
 \subsubsection{Temporal propagation}
 
+\textbf{Temporal Propagation} based methods are widely used in visual tracking task\cite{LucidTracker}\cite{CTN}\cite{MaskRNN}, which use last frame result or several pervious frames result to locate current tracked object mask.
+
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{./figure/MaskRNN.png}
+    \caption{Pipline of \textbf{MaskRNN}}
+    \label{MaskRNN}
+\end{figure*}
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{./figure/DyeNet.png}
+    \caption{(a) The pipeline of \textbf{DyeNet}. The network hinges on two main modules, namely a re-identification (Re-ID) module and a recurrent mask propagation (Re-MP) module. (b) The network architecture of the re-identification (Re-ID) module.}
+    \label{DyeNet}
+\end{figure*}
+
 \textbf{LucidTracker}\cite{LucidTracker} propose a new training strategy which is suitable for both single and multiple object tracking. Instead of using large training sets hoping to generalize across domains, it generate in-domain training data using the provided annotation on the first frame of each video to synthesize (``lucid dream'', which has been shown in Sec 2.4.2). This approach allows to reach competitive results even when training from only a single annotated frame, without ImageNet pre-training. LucidTracker indicate that using a larger training set is not automatically better, and that for the tracking task a smaller training set that is closer to the target domain is more effective. This changes the mindset regarding how many training samples and general ``objectness'' knowledge are required for the object tracking task.
 
 \begin{figure}[ht]
@@ -74,30 +92,26 @@ There are several main advantages of PML: Firstly, the proposed method is highly
     \label{lucid_tracker}
 \end{figure}
 
-\begin{figure*}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{./figure/CTN.png}
-    \caption{Overview of CTN}
-    \label{CTN}
-\end{figure*}
+\textbf{CTN}\cite{CTN} propagate the segmentation labels at the previous frame to the current frame using optical ﬂow vectors, has three decoding branches: separative, definite foreground, and definite background decoders. Then,CTN perform Markov random field optimization based on outputs of the three decoders. CTN sequentially carry out these processes from the second to the last frames to extract a segment track of the target object. 
 
-\textbf{CTN}\cite{CTN} propagate the segmentation labels at the previous frame to the current frame using optical ﬂow vectors, has three decoding branches(Detail has been show in Fig.\ref{CTN}): separative, definite foreground, and definite background decoders. Then,CTN perform Markov random field optimization based on outputs of the three decoders. CTN sequentially carry out these processes from the second to the last frames to extract a segment track of the target object. 
 
-\textbf{MaskRNN}\cite{MaskRNN}
+
+\textbf{MaskRNN}\cite{MaskRNN} focus on instance level video object segmentation, which is an important technique for video editing and compression.MaskRNN is a recurrent neural net approach which fuses in each frame the output of two deep nets for each object instance — a binary segmentation net providing a mask and a localization net providing a bounding box. Due to the recurrent component and the localization component,MaskRNN is able to take advantage of long-term temporal structures of the video data as well as rejecting outliers.
+
+
+
+MaskRNN use a bottom-up approach where we ﬁrst track and segment individual objects before merging the results. To capture the temporal structure, this approach employs a recurrent neural net while the segmentation of individual objects is based on predictions of binary segmentation masks conﬁned to a predicted bounding box.In Fig.\ref{MaskRNN}, we show an example video with 2 objects (left). MaskRNN predicts the binary segmentation for each object using 2 deep nets, one for each object, which perform binary segmentation and object localization. The output instance-level segmentation mask is obtained by combining the binary segmentation masks.
+
 
 
 \subsubsection{Combine}
+Template Matching paradigm fails in some challenging cases in DAVIS, as using a fixed set of templates cannot sufficiently cover large scale and pose variations; In addition, Temporal Propagation fails in some occlusion situation.  To solving video object segmentation with multiple instances requires template matching for coping with occlusion and temporal propagation for ensuring temporal continuity. \cite{OSMN}\cite{DyeNet} bring some approaches into this problem.
 
 \textbf{OSMN}\cite{OSMN}
 
 \textbf{DyeNet}\cite{DyeNet} formulate a deep recurrent network that is capable of segmenting and tracking objects in video simultaneously by their temporal continuity, yet able to re-identify them when they re-appear after a prolonged occlusion. DyeNet combine both temporal propagation and re-identification functionalities into a single framework that can be trained end-to-end. In particular,it present a re-identification module with template expansion to retrieve missing objects despite their large appearance changes. In addition, it contribute a new attention-based recurrent mask propagation approach that is robust to distractors not belonging to the target segment.
 
-\begin{figure*}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{./figure/DyeNet.png}
-    \caption{(a) The pipeline of \textbf{DyeNet}. The network hinges on two main modules, namely a re-identification (Re-ID) module and a recurrent mask propagation (Re-MP) module. (b) The network architecture of the re-identification (Re-ID) module.}
-    \label{DyeNet}
-\end{figure*}
+
 
 DyeNet joints template matching and temporal propagation into a unified deep neural network for addressing video object segmentation with multiple instances(detail is shown in Fig.\ref{DyeNet}). The network can be trained end-to-end. It does not require online training (i.e., fine-tune using the masks of the first frame) to do well but can achieve better results with online training.In addition, DyeNet present an effective template expansion approach to better retrieve missing targets that reappear with different poses and scales.
 
