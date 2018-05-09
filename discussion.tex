@@ -9,18 +9,18 @@ dimensionality of still images to time, the temporal stability of the results mu
 
 \begin{table*}[ht]
 	\begin{center}
-		\setlength\tabcolsep{3pt}
-		\begin{tabular}{|c|c|c|c|c|c|c|}
+		\setlength\tabcolsep{1pt}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline
-Dataset& Metrics &OSVOS~\cite{OSVOS}  &LucidTracker~\cite{LucidTracker} &PLM~\cite{PLM} & DyeNet~\cite{DyeNet} &CTN~\cite{CTN}\\
+Dataset& Metrics &OSVOS~\cite{OSVOS} &$\text{OSVOS}^\text{S}$\cite{OSVOS-S} &BVS\cite{BVS} &PML~\cite{PML} &Lucid~\cite{LucidTracker} &CTN~\cite{CTN} &MaskRNN\cite{MaskRNN} &OSMN\cite{OSMN} &DyeNet~\cite{DyeNet} \\
 \hline
-\multirow{2}{*}{DAVIS2016} &$\J$ mean  &79.8   &91.2     &70.2      &--    &73.5\\
-\cline{2-7}
-&$\F$ Mean      &80.6    &94.2  &62.5  &--  &69.3\\
+\multirow{2}{*}{DAVIS2016} &$\J$ mean  &79.8 &85.6 & 60.0 &86.1 &\textbf{91.2} &73.5 &80.4 &74 &86.2 \\
+\cline{2-11}
+&$\F$ Mean  &80.6 &86.4 &58.8 &-- &\textbf{94.2} &69.3 &82.3 &-- &-- \\
 \hline
-\multirow{2}{*}{DAVIS2017} &$\J$ mean  &55.1   &63.4     &--      &67.3    &--\\
-\cline{2-7}
-&$\F$ Mean      &62.1    &69.9  &--        &71      &--\\
+\multirow{2}{*}{DAVIS2017} &$\J$ mean  &55.1 &-- &-- &-- &65.1 &-- &60.5 &52.5 &\textbf{67.3} \\
+\cline{2-11}
+&$\F$ Mean &62.1 &-- &-- &-- &70.6 &-- &-- &57.1 &\textbf{71}\\
 \hline
 \end{tabular}
 \end{center}
