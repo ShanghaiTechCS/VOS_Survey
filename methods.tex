@@ -1,8 +1,20 @@
 \section{Methods}
 
 \subsection{Semi-supervised VOS}
-\subsubsection{OSVOS}
-OSVOS\cite{OSVOS} based on a fully-convolutional neural network architecture that is able to successively transfer generic semantic information, learned on ImageNet\cite{Krizhevsky2012ImageNet}, to the task of foreground segmentation, and ﬁnally to learning the appearance of a single annotated object of the test sequence (hence one-shot). Although all frames are processed independently, the results are temporally coherent and stable. OSVOS processes each frame of a video independently(architecture has been shown in Fig.\ref{osvos_fcn}), obtaining temporal consistency as a by-product rather than as the result of an explicitly imposed, expensive constraint. 
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{./figure/fine_tune_result.png}
+    \caption{Result of Fine-Tune with different train epoch}
+    \label{fine_tune_result}
+\end{figure*}
+
+
+\subsubsection{Template Matching}
+\textbf{Template Matching} based methods are widely used in visual tracking task\cite{OSVOS}\cite{OSVOS-S}\cite{BVS}\cite{PML}. Often, a fixed set of templates such as the masks of target objects in the first frame are used for matching targets. This paradigm fails in some challenging cases in DAVIS, as using a fixed set of templates cannot sufficiently cover large scale and pose variations. To mitigate the variations in both scale and pose across frames, exist-ing studies \cite{PML} exploit dynamic templates to maintain continuity of individual segmented regions across frames.
+
+\textbf{OSVOS}\cite{OSVOS} based on a fully-convolutional neural network architecture that is able to successively transfer generic semantic information, learned on ImageNet\cite{Krizhevsky2012ImageNet}, to the task of foreground segmentation, and finally to learning the appearance of a single annotated object of the test sequence (hence one-shot). Although all frames are processed independently, the results are temporally coherent and stable. OSVOS processes each frame of a video independently(architecture has been shown in Fig.\ref{osvos_fcn}), obtaining temporal consistency as a by-product rather than as the result of an explicitly imposed, expensive constraint. 
+
+In Fig.\ref{fine_tune_result}, we can find that accurate tracked object mask occurs along with the more train epochs, which means that the base network focus from general object to some specific tracked obeject.
 
 \begin{figure}[ht]
     \centering
@@ -11,20 +23,36 @@ OSVOS\cite{OSVOS} based on a fully-convolutional neural network architecture tha
     \label{osvos_fcn}
 \end{figure}
 
-OSVOS can work at various points of the trade-off between speed and accuracy. In this sense, it can be adapted in two ways. First, given one annotated frame, the user can choose the level of ﬁne-tuning of OSVOS, giving him/her the freedom between a faster method or more accurate results. Experimentally, we show that OSVOS can run at 181 ms per frame and 71.5\% accuracy, and up to 79.7\% when processing each frame in 7.83 s. Second, the user can annotate more frames, those on which the current segmentation is less satisfying, upon which OSVOS will reﬁne the result.
+OSVOS can work at various points of the trade-off between speed and accuracy. In this sense, it can be adapted in two ways. First, given one annotated frame, the user can choose the level of fine-tuning of OSVOS, giving him/her the freedom between a faster method or more accurate results. Experimentally, we show that OSVOS can run at 181 ms per frame and 71.5\% accuracy, and up to 79.7\% when processing each frame in 7.83 s. Second, the user can annotate more frames, those on which the current segmentation is less satisfying, upon which OSVOS will refine the result.
 
-\subsubsection{LucidTracker}
-LucidTracker\cite{LucidTracker} propose a new training strategy which is suitable for both single and multiple object tracking. Instead of using large training sets hoping to generalize across domains, it generate in-domain training data using the provided annotation on the ﬁrst frame of each video to synthesize (``lucid dream'', which has been shown in Sec 2.4.2). This approach allows to reach competitive results even when training from only a single annotated frame, without ImageNet pre-training. LucidTracker indicate that using a larger training set is not automatically better, and that for the tracking task a smaller training set that is closer to the target domain is more effective. This changes the mindset regarding how many training samples and general ``objectness'' knowledge are required for the object tracking task.
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{./figure/OSVOS_S.png}
+    \caption{$\textbf{OSVOS}^\textbf{S}$ Network architecture overview: $\text{OSVOS}^\text{S}$ is composed of three major components: a base network as the feature extractor, and three classifiers built on top with shared features: a first-round foreground estimator to produce the semantic prior, and two conditional classifiers to model the appearance likelihood.}
+    \label{OSVOS_S}
+\end{figure*}
+
+
+$\textbf{OSVOS}^\textbf{S}$\cite{OSVOS-S} based on a fully-convolutional neural network architecture that is able to successively transfer generic semantic information, learned on ImageNet, to the task of foreground segmentation, and finally to learning the appearance of a single annotated object of the test sequence (hence one shot). $\text{OSVOS}^\text{S}$ show that instance level semantic information, when combined effectively, can dramatically improve the results of previous method, OSVOS\cite{OSVOS}.
+
+$\text{OSVOS}^\text{S}$ extends the model of the object with explicit semantic information. In the example of Fig.\ref{OSVOS_S}, for instance, $\text{OSVOS}^\text{S}$ would like to leverage the fact that segmenting an object of the category person and that there is a single instance of it. In particular, it will use an instanceaware semantic segmentation algorithm to extract a list of proposal of object masks in each frame, along with their categories. Given the first annotated frame, $\text{OSVOS}^\text{S}$ will infer the categories of the objects of interest by finding the best-overlapping masks.
+
+$\text{OSVOS}^\text{S}$ can also work at various points of the trade-off between speed and accuracy, which is same with OSVOS. In this sense, given one annotated frame, the user can choose the level of fine-tuning performed on it, giving them the freedom between a faster method or more accurate results.
+
+
+\textbf{BVS}\cite{BVS} propose a novel approach to video segmentation that operates in bilateral space, who design a new energy on the vertices of a regularly sampled spatiotemporal bilateral grid, which can be solved efficiently using a standard graph cut label assignment. Using a bilateral formulation, the energy that it minimize implicitly approximates long-range, spatio-temporal connections between pixels while still containing only a small number of variables and only local graph edges. 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{./figure/lucid_tracker.png}
-    \caption{Overview of the proposed one and two streams architectures in LucidTracker}
-    \label{lucid_tracker}
+    \includegraphics[width=0.5\textwidth]{./figure/BVS.png}
+    \caption{\textbf{BVS} pipeline}
+    \label{BVS}
 \end{figure}
 
-\subsubsection{PML}
-PML\cite{PML} embed pixels of the same object instance into the vicinity of each other, using a fully convolutional network trained by a modiﬁed triplet loss as the embedding model. Then the annotated pixels are set as reference and the rest of the pixels are classiﬁed using a nearest-neighbor approach. The proposed method supports different kinds of user input such as segmentation mask in the ﬁrst frame (semi-supervised scenario), or a sparse set of clicked points (interactive scenario). details of PML is shown in Fig.\ref{PML}.
+In Fig.\ref{BVS}, we show the pipline(demonstrated on a 1D example) of BVS: Pixels are lifted into a 2D feature space (a), with two user assigned labels (red and green highlighted pixels). Values are accumulated on the vertices of a regular grid (b), a graph cut label assignment is computed on these vertices (c), and finally pixel values are sliced at at their original locations (c), showing the final segmentation (again, red and green boundaries).
+
+
+\textbf{PML}\cite{PML} embed pixels of the same object instance into the vicinity of each other, using a fully convolutional network trained by a modified triplet loss as the embedding model. Then the annotated pixels are set as reference and the rest of the pixels are classified using a nearest-neighbor approach. The proposed method supports different kinds of user input such as segmentation mask in the first frame (semi-supervised scenario), or a sparse set of clicked points (interactive scenario). details of PML is shown in Fig.\ref{PML}.
 
 \begin{figure}[ht]
     \centering
@@ -33,18 +61,18 @@ PML\cite{PML} embed pixels of the same object instance into the vicinity of each
     \label{PML}
 \end{figure}
 
-There are several main advantages of PML: Firstly, the proposed method is highly efﬁcient as there is no ﬁne-tuning in test time, and it only requires a single forward pass through the embedding network and a nearest-neighbor search to process each frame. Secondly, our method provides the ﬂexibility to support different types of user input (i.e. clicked points, scribbles, segmentation masks, etc.) in an uniﬁed framework. Moreover, the embedding process is independent of user input, thus the embedding vectors do not need to be recomputed when the user input changes, which makes our method ideal for the interactive scenario.
+There are several main advantages of PML: Firstly, the proposed method is highly efficient as there is no fine-tuning in test time, and it only requires a single forward pass through the embedding network and a nearest-neighbor search to process each frame. Secondly, our method provides the ﬂexibility to support different types of user input (i.e. clicked points, scribbles, segmentation masks, etc.) in an unified framework. Moreover, the embedding process is independent of user input, thus the embedding vectors do not need to be recomputed when the user input changes, which makes our method ideal for the interactive scenario.
 
+\subsubsection{Temporal propagation}
 
-\subsubsection{DyeNet}
-DyeNet\cite{DyeNet} formulate a deep recurrent network that is capable of segmenting and tracking objects in video simultaneously by their temporal continuity, yet able to re-identify them when they re-appear after a prolonged occlusion. DyeNet combine both temporal propagation and re-identiﬁcation functionalities into a single framework that can be trained end-to-end. In particular,it present a re-identiﬁcation module with template expansion to retrieve missing objects despite their large appearance changes. In addition, it contribute a new attention-based recurrent mask propagation approach that is robust to distractors not belonging to the target segment.
+\textbf{LucidTracker}\cite{LucidTracker} propose a new training strategy which is suitable for both single and multiple object tracking. Instead of using large training sets hoping to generalize across domains, it generate in-domain training data using the provided annotation on the first frame of each video to synthesize (``lucid dream'', which has been shown in Sec 2.4.2). This approach allows to reach competitive results even when training from only a single annotated frame, without ImageNet pre-training. LucidTracker indicate that using a larger training set is not automatically better, and that for the tracking task a smaller training set that is closer to the target domain is more effective. This changes the mindset regarding how many training samples and general ``objectness'' knowledge are required for the object tracking task.
 
-\begin{figure*}[ht]
+\begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{./figure/DyeNet.png}
-    \caption{(a) The pipeline of \textbf{DyeNet}. The network hinges on two main modules, namely a re-identiﬁcation (Re-ID) module and a recurrent mask propagation (Re-MP) module. (b) The network architecture of the re-identiﬁcation (Re-ID) module.}
-    \label{DyeNet}
-\end{figure*}
+    \includegraphics[width=0.5\textwidth]{./figure/lucid_tracker.png}
+    \caption{Overview of the proposed one and two streams architectures in LucidTracker}
+    \label{lucid_tracker}
+\end{figure}
 
 \begin{figure*}[ht]
     \centering
@@ -53,11 +81,27 @@ DyeNet\cite{DyeNet} formulate a deep recurrent network that is capable of segmen
     \label{CTN}
 \end{figure*}
 
+\textbf{CTN}\cite{CTN} propagate the segmentation labels at the previous frame to the current frame using optical ﬂow vectors, has three decoding branches(Detail has been show in Fig.\ref{CTN}): separative, definite foreground, and definite background decoders. Then,CTN perform Markov random field optimization based on outputs of the three decoders. CTN sequentially carry out these processes from the second to the last frames to extract a segment track of the target object. 
 
-DyeNet joints template matching and temporal propagation into a uniﬁed deep neural network for addressing video object segmentation with multiple instances(detail is shown in Fig.\ref{DyeNet}). The network can be trained end-to-end. It does not require online training (i.e., ﬁne-tune using the masks of the ﬁrst frame) to do well but can achieve better results with online training.In addition, DyeNet present an effective template expansion approach to better retrieve missing targets that reappear with different poses and scales.
+\textbf{MaskRNN}\cite{MaskRNN}
 
-\subsubsection{CTN}
-CTN\cite{CTN} propagate the segmentation labels at the previous frame to the current frame using optical ﬂow vectors, has three decoding branches(Detail has been show in Fig.\ref{CTN}): separative, deﬁnite foreground, and deﬁnite background decoders. Then,CTN perform Markov random ﬁeld optimization based on outputs of the three decoders. CTN sequentially carry out these processes from the second to the last frames to extract a segment track of the target object. 
+
+\subsubsection{Combine}
+
+\textbf{OSMN}\cite{OSMN}
+
+\textbf{DyeNet}\cite{DyeNet} formulate a deep recurrent network that is capable of segmenting and tracking objects in video simultaneously by their temporal continuity, yet able to re-identify them when they re-appear after a prolonged occlusion. DyeNet combine both temporal propagation and re-identification functionalities into a single framework that can be trained end-to-end. In particular,it present a re-identification module with template expansion to retrieve missing objects despite their large appearance changes. In addition, it contribute a new attention-based recurrent mask propagation approach that is robust to distractors not belonging to the target segment.
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{./figure/DyeNet.png}
+    \caption{(a) The pipeline of \textbf{DyeNet}. The network hinges on two main modules, namely a re-identification (Re-ID) module and a recurrent mask propagation (Re-MP) module. (b) The network architecture of the re-identification (Re-ID) module.}
+    \label{DyeNet}
+\end{figure*}
+
+DyeNet joints template matching and temporal propagation into a unified deep neural network for addressing video object segmentation with multiple instances(detail is shown in Fig.\ref{DyeNet}). The network can be trained end-to-end. It does not require online training (i.e., fine-tune using the masks of the first frame) to do well but can achieve better results with online training.In addition, DyeNet present an effective template expansion approach to better retrieve missing targets that reappear with different poses and scales.
+
+
 
 
 \subsection{Unsupervised VOS}
@@ -207,19 +251,3 @@ terms between neighboring pixels. The data term is iteratively refined by learni
 and background. For computational reasons, the pairwise  terms are typical considered only between adjacent pixels inthe same 
 frame and corresponding pixels in adjacent frames(using optical flow).
 
-
-% \mtodo{Sort by IoU:
-% 	% IET~\cite{li2018instance}, 
-% 	ARP~\cite{koh2017}, 
-% 	LVO~\cite{tokmakov17}, 
-% 	FSEG~\cite{jain2017}, 
-% 	LMP~\cite{tokmakov2017}, 
-% 	SFL~\cite{cheng2017sfl}, 
-% 	FST~\cite{papazoglou2013}, 
-% 	CUT~\cite{keuper2015}, 
-% 	NLC~\cite{faktor2014}, 
-% 	MSG~\cite{ochs2011}, 
-% 	KEY~\cite{lee2011}, 
-% 	CVOS~\cite{taylor2015},
-% 	TRC~\cite{fragkiadaki2012}
-% }
